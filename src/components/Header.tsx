@@ -15,6 +15,8 @@ import { useViewportScroll } from "framer-motion";
 import {FaWallet} from "react-icons/fa";
 import { FaMoon, FaSun } from "react-icons/fa";
 import ConnectModal from "./ConnectModal";
+// @ts-ignore
+import { HashLink as RouterLink } from 'react-router-hash-link';
 
 export default function Header() {
   const { toggleColorMode: toggleMode } = useColorMode();
@@ -66,6 +68,10 @@ export default function Header() {
                   Home
                 </Button>
           </Link>
+                <Link  to={{pathname:"create_proposal"}} as={RouterLink} _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                       style={{ textDecoration: 'none',outline:'none' }}
+                       _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
+                       >
                 <Button
                   bg={bg}
                   color="gray.500"
@@ -77,6 +83,7 @@ export default function Header() {
                 >
                   Create Proposal
                 </Button>
+                </Link>
                 <Link  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
                        style={{ textDecoration: 'none',outline:'none' }}
                        _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}

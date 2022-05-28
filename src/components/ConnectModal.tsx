@@ -57,6 +57,7 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                                              onClick={()=>{onLogin("PLUG")}}
                                             cursor={"pointer"} mb={3} display={"flex"}
                                             alignItems={"center"}
+                                             borderRadius={"0.375rem"}
                                             flexDirection={"row"}  w={"full"} h={"60px"}
                                              p={3} _hover={{bg:"purple.200"}}>
 
@@ -65,6 +66,7 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                                 <chakra.div
                                     onClick={() => {onLogin("II")}}
                                     bg={"purple.100"}
+                                    borderRadius={"0.375rem"}
                                     cursor={"pointer"} mb={3} display={"flex"} alignItems={"center"}
                                     flexDirection={"row"} w={"full"} h={"60px"} p={3} _hover={{bg:"purple.200"}}>
 
