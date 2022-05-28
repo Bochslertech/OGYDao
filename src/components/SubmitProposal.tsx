@@ -28,8 +28,7 @@ export default function SubmitProposals() {
   const [sumbitLoading,setSubmitLoading] = useState<boolean>(false)
   const [selectCommand, setSelectCommand] = useState<string>("admin");
   const [subCommand, setSubCommand] = useState<string>("Remove Member");
-
-  console.log(selectCommand,subCommand)
+  
   const [commandContent, setCommandContent] = useState<string[]|null>(null);
   const commands = [
     ["Remove Member","Add Member"],
@@ -91,9 +90,6 @@ export default function SubmitProposals() {
           onChange={(event) =>
           {changePrincipal(event)}} id='principal' placeholder='principal' />
       </FormControl>
-
-
-
       <Button
         mt={4}
         colorScheme='teal'
