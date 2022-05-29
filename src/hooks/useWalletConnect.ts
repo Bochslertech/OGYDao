@@ -86,10 +86,19 @@ export const useWalletConnect = () => {
     const handleLogin = (walletType:string,whitelist?:string[]) => {
         switch (walletType) {
             case "II":
-                authClient?.login({
-                    maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1e9), // one week
-                    onSuccess: () => handleIIAuthenticated(authClient),
-                });
+                (async ()=>{
+                    let tmpClient = authClient
+                    if (!authClient) {
+                        tmpClient  = await AuthClient.create();
+                        setAuthClient(tmpClient)
+                    }
+
+                    tmpClient?.login({
+                        maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1e9), // one week
+                        onSuccess: () => handleIIAuthenticated(tmpClient as AuthClient),
+                    });
+                })()
+
                 return
             case "PLUG":
                 (async ()=>{

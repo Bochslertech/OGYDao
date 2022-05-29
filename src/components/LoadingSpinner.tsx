@@ -4,7 +4,7 @@ const LoadingSpinner = () => {
 
     return (
        <Center >
-           <chakra.div  minH={"100vh"}>
+           <chakra.div>
 
                    <Spinner
                        thickness='4px'

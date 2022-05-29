@@ -19,11 +19,11 @@ export default function Panel() {
           <chakra.div px={10} mt={2} display={"flex"} flexDirection={"column"} >
             {listAccounts.map((v:any,k:any) => {
               return (
-                <>
+
                   <chakra.div key={k}>
                     <Text><chakra.span fontWeight={"600"}>Voter: </chakra.span> {Principal.from(v.owner).toText()}</Text>
                   </chakra.div>
-                </>
+
               )
             })}
           </chakra.div>
