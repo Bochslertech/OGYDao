@@ -1,0 +1,136 @@
+type VoteArgs = 
+ record {
+   proposal_id: nat;
+   vote: Vote;
+ };
+type Vote = 
+ variant {
+   no;
+   yes;
+ };
+type UpdateSystemParamsPayload = 
+ record {
+   proposal_submission_deposit: opt Tokens;
+   proposal_vote_threshold: opt Tokens;
+   transfer_fee: opt Tokens;
+ };
+type TransferArgs = 
+ record {
+   amount: Tokens;
+   to: principal;
+ };
+type Tokens = record {amount_e8s: nat64;};
+type TokenCommand = variant {
+                      Transfer: record {
+                                  amount: nat64;
+                                  recipient: principal;
+                                };};
+type SystemParams = 
+ record {
+   proposal_submission_deposit: Tokens;
+   proposal_vote_threshold: Tokens;
+   transfer_fee: Tokens;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: nat;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: ProposalState;
+ };
+type ProposalType = 
+ variant {
+   AdminCommand: AdminCommand;
+   TokenCommand: TokenCommand;
+ };
+type ProposalState = 
+ variant {
+   accepted;
+   executing;
+   failed: CommandError;
+   open;
+   rejected;
+   succeeded;
+ };
+type Proposal = 
+ record {
+   id: nat;
+   proposal_content: text;
+   proposal_type: ProposalType;
+   proposer: principal;
+   state: ProposalState;
+   timestamp: int;
+   voters: List;
+   votes_no: Tokens;
+   votes_yes: Tokens;
+ };
+type List = 
+ opt record {
+       principal;
+       List;
+     };
+type ErrorCode = 
+ variant {
+   canister_error;
+   canister_reject;
+   destination_invalid;
+   future: nat32;
+   system_fatal;
+   system_transient;
+ };
+type DAO = 
+ service {
+   account_balance: () -> (Tokens) query;
+   get_proposal: (nat) -> (opt Proposal) query;
+   get_system_params: () -> (SystemParams) query;
+   list_accounts: () -> (vec Account) query;
+   list_proposals: () -> (vec Proposal) query;
+   submit_proposal: (ProposalType, text) -> (Result_2);
+   transfer: (TransferArgs) -> (Result_1);
+   update_system_params: (UpdateSystemParamsPayload) -> ();
+   vote: (VoteArgs) -> (Result);
+ };
+type CommandError = 
+ variant {
+   Error: record {
+            error_message: text;
+            error_type: ErrorCode;
+          };
+   InsufficientBalance;
+   RequestTypeError;
+   SendTokenError;
+ };
+type BasicDaoStableStorage = 
+ record {
+   accounts: vec Account;
+   proposals: vec Proposal;
+   system_params: SystemParams;
+ };
+type AdminCommand = 
+ variant {
+   AddMembers: vec Account;
+   InstallCode: record {
+                  ages: blob;
+                  canisterId: principal;
+                  wasm: blob;
+                };
+   Mint: record {
+           amount_e8s: nat64;
+           recipient: principal;
+         };
+   RemoveMembers: vec principal;
+ };
+type Account = 
+ record {
+   owner: principal;
+   tokens: Tokens;
+ };
+service : (BasicDaoStableStorage) -> DAO

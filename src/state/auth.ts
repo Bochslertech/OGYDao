@@ -2,7 +2,7 @@ import { HttpAgent } from "@dfinity/agent";
 import { atomWithReset } from "jotai/utils";
 
 export const iiAgentAtom = atomWithReset<HttpAgent>(
-    new HttpAgent({ host: "https://ic0.app" })
+    new HttpAgent({ host: "http://127.0.0.1:8000" })
 );
 
 export const loginLoadingAtom = atomWithReset<boolean>(false)

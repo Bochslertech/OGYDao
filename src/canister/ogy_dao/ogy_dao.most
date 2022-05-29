@@ -1,0 +1,80 @@
+// Version: 1.0.0
+type Account = {owner : Principal; tokens : Tokens};
+type AdminCommand = AdminCommandRequest;
+type AdminCommandRequest =
+  {
+    #AddMembers : [Account];
+    #InstallCode : {ages : Blob; canisterId : Principal; wasm : Blob};
+    #Mint : {amount_e8s : Nat64; recipient : Principal};
+    #RemoveMembers : [Principal]
+  };
+type AssocList<K, V> = List<(K, V)>;
+type AssocList__1<K, V> = AssocList<K, V>;
+type Branch<K, V> = {left : Trie<K, V>; right : Trie<K, V>; size : Nat};
+type CommandError =
+  {
+    #Error : {error_message : Text; error_type : ErrorCode__1};
+    #InsufficientBalance;
+    #RequestTypeError;
+    #SendTokenError
+  };
+type ErrorCode =
+  {
+    #canister_error;
+    #canister_reject;
+    #destination_invalid;
+    #future : Nat32;
+    #system_fatal;
+    #system_transient
+  };
+type ErrorCode__1 = ErrorCode;
+type Hash = Nat32;
+type Key<K> = {hash : Hash; key : K};
+type Leaf<K, V> = {keyvals : AssocList__1<Key<K>, V>; size : Nat};
+type List<T> = ?(T, List<T>);
+type Proposal =
+  {
+    id : Nat;
+    proposal_content : Text;
+    proposal_type : ProposalType;
+    proposer : Principal;
+    state : ProposalState;
+    timestamp : Int;
+    voters : List<Principal>;
+    votes_no : Tokens;
+    votes_yes : Tokens
+  };
+type ProposalState =
+  {
+    #accepted;
+    #executing;
+    #failed : CommandError;
+    #open;
+    #rejected;
+    #succeeded
+  };
+type ProposalType =
+  {#AdminCommand : AdminCommand; #TokenCommand : TokenCommand};
+type TokenCommand = TokenCommandRequest;
+type TokenCommandRequest =
+  {#Transfer : {amount : Nat64; recipient : Principal}};
+type Tokens = {amount_e8s : Nat64};
+type Trie<K, V> = {#branch : Branch<K, V>; #empty; #leaf : Leaf<K, V>};
+actor {
+  stable var accounts :
+    {
+      #branch : Branch<Principal, Tokens>;
+      #empty;
+      #leaf : Leaf<Principal, Tokens>
+    };
+  stable var next_proposal_id : Nat;
+  stable var proposals :
+    {#branch : Branch<Nat, Proposal>; #empty; #leaf : Leaf<Nat, Proposal>};
+  stable var system_params :
+    {
+      proposal_submission_deposit : Tokens;
+      proposal_vote_threshold : Tokens;
+      transfer_fee : Tokens
+    };
+  stable var transferIndex : Nat64
+};

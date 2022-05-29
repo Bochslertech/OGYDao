@@ -4,14 +4,14 @@ import {idlFactory} from "../canister/ogy_dao/ogy_dao.did.js";
 import {useAtom} from "jotai";
 import {iiAgentAtom} from "../state/auth";
 
-export const useSystemConfig = (canisterId:string) =>{
+export const useListAccounts = (canisterId:string) =>{
   const [agent] = useAtom(iiAgentAtom)
-  const {data,isLoading} = useQuery(   ["system_config",  canisterId ], async ()=> {
+  const {data,isLoading} = useQuery(   ["list_accounts",  canisterId ], async ()=> {
     const nft = Actor.createActor<any>(idlFactory,{
       agent,
       canisterId,
     })
-    return await nft.get_system_params();
+    return await nft.list_accounts();
   },{
     staleTime:60*1000*2,
   })

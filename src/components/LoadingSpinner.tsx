@@ -7,11 +7,10 @@ const LoadingSpinner = () => {
            <chakra.div  minH={"100vh"}>
 
                    <Spinner
-                       mt={20}
                        thickness='4px'
                        speed='0.65s'
                        emptyColor='gray.200'
-                       color='blue.500'
+                       color='purple.500'
                        size='xl'
                    />
 
