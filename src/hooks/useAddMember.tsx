@@ -10,7 +10,7 @@ export const useAddMember = (canisterId:string) =>{
     console.log(proposal)
     const daoActor = await getActor(idlFactory,canisterId)
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
-        'AddMembers' : proposal.principal
+        'AddMembers' : [{owner:proposal.principal,tokens:{amount_e8s:BigInt(1)}}],
       }},proposal.content)
   },{
     onMutate: async proposal => {

@@ -52,12 +52,12 @@ export const useWalletConnect = () => {
         try {
             let isConnected = await PLUG.isConnected()
             if (!isConnected) {
-                await PLUG.requestConnect({whitelist,host:"https://ic0.app"})
+                await PLUG.requestConnect({whitelist,host:"http://127.0.0.1:8000"})
             }
             isConnected = await PLUG.isConnected()
             if (isConnected) {
                 try {
-                    await PLUG.createAgent({whitelist,host:"https://ic0.app"} )
+                    await PLUG.createAgent({whitelist,host:"http://127.0.0.1:8000"} )
                     if (PLUG.agent) {
                         const principal = await PLUG.getPrincipal()
                         setPrincipal(principal.toString())
@@ -93,7 +93,7 @@ export const useWalletConnect = () => {
                 return
             case "PLUG":
                 (async ()=>{
-                    await handlePLUGAuthenticated(["zkiie-xyaaa-aaaah-abdra-cai"])
+                    await handlePLUGAuthenticated(["r7inp-6aaaa-aaaaa-aaabq-cai"])
                 })()
                 return
             default:

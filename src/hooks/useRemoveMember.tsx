@@ -10,7 +10,7 @@ export const useRemoveMember = (canisterId:string) =>{
     console.log("dddd",proposal)
     const daoActor = await getActor(idlFactory,canisterId)
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
-        'RemoveMembers' : proposal.principal
+        'RemoveMembers' : [proposal.principal]
       }},proposal.content)
   },{
     onMutate: async proposal => {

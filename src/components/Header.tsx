@@ -55,7 +55,7 @@ export default function Header() {
         case "PLUG":
           setLoginLoading(true)
           await handlePLUGAuthenticated([
-            "zkiie-xyaaa-aaaah-abdra-cai"
+            "r7inp-6aaaa-aaaaa-aaabq-cai"
           ])
           setLoginLoading(false)
           break

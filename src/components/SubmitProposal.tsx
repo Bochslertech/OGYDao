@@ -52,8 +52,8 @@ export default function SubmitProposals() {
     }
   },[selectCommand])
 
-  const {mutationAddMember} = useAddMember("")
-  const {mutationRemoveMember} = useRemoveMember("")
+  const {mutationAddMember} = useAddMember("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {mutationRemoveMember} = useRemoveMember("r7inp-6aaaa-aaaaa-aaabq-cai")
   const toast = useToast()
   const submitProposal = () => {
     console.log(principal)
@@ -85,36 +85,64 @@ export default function SubmitProposals() {
           })
           return
         }
-        console.log(content,proposalPid,subCommand)
         switch (subCommand) {
           case "Remove Member":
-            mutationAddMember.mutate({
-              principal:Principal.fromText(proposalPid),
-              content:content
-            })
-            toast({
-              title: 'Admin command',
-              description: "Remove Member success",
-              status: 'success',
-              duration: 3000,
-              position: 'top',
-              isClosable: true,
-            })
+            (async ()=>{
+              setSubmitLoading(true)
+              const data = await mutationRemoveMember.mutateAsync({
+                principal:Principal.fromText(proposalPid),
+                content:content
+              })
+              if ("err" in data) {
+                toast({
+                  title: 'Admin command',
+                  description: data.err,
+                  status: 'error',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }else {
+                toast({
+                  title: 'Admin command',
+                  description: "submit success",
+                  status: 'success',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }
+              setSubmitLoading(false)
+            })()
             return;
           case "Add Member":
-            mutationRemoveMember.mutate({
-              principal:Principal.fromText(proposalPid),
-              content:content
-            })
-            toast({
-              title: 'Admin command',
-              description: "Remove Member success",
-              status: 'success',
-              duration: 3000,
-              position: 'top',
-              isClosable: true,
-            })
-            return;
+            (async ()=>{
+              setSubmitLoading(true)
+              const data = await mutationAddMember.mutateAsync({
+                principal:Principal.fromText(proposalPid),
+                content:content
+              })
+              if ("err" in data) {
+                toast({
+                  title: 'Admin command',
+                  description: data.err,
+                  status: 'error',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }else {
+                toast({
+                  title: 'Admin command',
+                  description: "submit success",
+                  status: 'success',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }
+              setSubmitLoading(false)
+            })()
         }
         return;
       case "token":
@@ -210,7 +238,7 @@ export default function SubmitProposals() {
         bg={"purple.500"}
         _hover={{bg:"purple.300"}}
         onClick={submitProposal}
-        disabled={!principal}
+        disabled={!principal || sumbitLoading}
       >
         Submit
       </Button>
