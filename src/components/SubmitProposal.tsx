@@ -25,7 +25,6 @@ export default function SubmitProposals() {
       setContent(event.target.value)
     }
   }
-
   const [BasicDaoStableStorage] = init({IDL})
 
   const changeThreshold = (threshold:string) => {

@@ -84,10 +84,10 @@ export default function Header() {
           >
             <Flex>
               <HStack spacing="5" display={{ base: "none", md: "flex" }}>
-          <Link  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+          <Link  as={RouterLink}  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
                  style={{ textDecoration: 'none',outline:'none' }}
                  _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
-                 href={"/"}>
+                 to={{pathname:"/"}}>
                 <Button
                   bg={bg}
                   color="gray.500"
@@ -100,7 +100,8 @@ export default function Header() {
                   Home
                 </Button>
           </Link>
-                <Link  to={{pathname:"create_proposal"}} as={RouterLink} _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                <Link  to={{pathname:"create_proposal"}} as={RouterLink}
+                       _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
                        style={{ textDecoration: 'none',outline:'none' }}
                        _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
                        >
