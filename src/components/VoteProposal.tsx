@@ -4,9 +4,10 @@ import { useVoteProposal } from "../hooks/useVoteProposal";
 import { useListProposals } from "../hooks/useListProposals";
 
 export default function VoteProposal(props:any) {
-  const {refetch,isFetching} = useListProposals("r7inp-6aaaa-aaaaa-aaabq-cai")
+
+  const {refetch,isFetching} = useListProposals()
   const [isLoading,setIsLoading] = useState(false)
-  const {mutationVoteProposal} = useVoteProposal("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {mutationVoteProposal} = useVoteProposal()
   const vote = (status:string,id:number) => {
     (async ()=>{
       setIsLoading(true)

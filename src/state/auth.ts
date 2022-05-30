@@ -10,3 +10,5 @@ export const loginLoadingAtom = atomWithReset<boolean>(false)
 export const principalAtom = atomWithReset<string>("")
 export const accountIdAtom = atomWithReset<string>("")
 export const authAtom = atomWithReset<string>("");
+
+export const selectCanisterIDAtom = atomWithReset<string>("r7inp-6aaaa-aaaaa-aaabq-cai")

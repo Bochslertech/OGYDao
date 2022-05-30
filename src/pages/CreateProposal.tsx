@@ -1,8 +1,6 @@
-
 import {
   chakra,
 } from "@chakra-ui/react";
-import Panel from "../components/Panel";
 import SubmitProposals from "../components/SubmitProposal";
 
 function CreateProposal(){

@@ -2,15 +2,11 @@ import React, {useEffect} from "react";
 import {
     Select,
     chakra,
-    ModalBody,
-    ModalCloseButton,
-    Text, Image, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerBody, Divider, Icon,
+    Text, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerBody
 } from '@chakra-ui/react'
 import {useWalletConnect} from "../hooks/useWalletConnect";
-import {FaWallet} from "react-icons/fa";
-import {AiOutlineLogout} from "react-icons/ai";
 import {useAtom} from "jotai";
-import {loginLoadingAtom} from "../state/auth";
+import { loginLoadingAtom, selectCanisterIDAtom } from "../state/auth";
 import LoadingSpinner from "./LoadingSpinner";
 
 const ConnectModal = ({isOpen,onOpen,onClose}:{
@@ -18,7 +14,6 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
     onOpen:()=>void
     onClose:()=>void
 }) => {
-
     const {handleLogin,handleLogout,principal} = useWalletConnect()
     const onLogin = (walletType:string) => {
         if (!principal) {
@@ -35,6 +30,7 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
         }
     },[principal])
     const [loginLoading] = useAtom(loginLoadingAtom)
+    const [selectCanisterID,setSelectCanisterID] = useAtom(selectCanisterIDAtom)
     return (
         <>
                 <Drawer
@@ -47,16 +43,16 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                         <DrawerCloseButton />
                         <DrawerBody mt={10}>
                             <Text fontSize={"xl"}>Wallet</Text>
-
                             <chakra.div mt={3}>
                                 <Text>Select Canister</Text>
-                                <Select>
-                                    <option value={"ogy"}>OGY</option>
-                                    <option value={"management"}>Management</option>
+                                <Select onChange={(event) => {setSelectCanisterID(event.target.value)}}>
+                                    <option  value={"r7inp-6aaaa-aaaaa-aaabq-cai"}>OGY</option>
+                                    <option  value={"rrkah-fqaaa-aaaaa-aaaaq-cai"}>Management</option>
                                 </Select>
-                                <Text>Current Canister:{}</Text>
+                                <Text color={"purple.700"} fontWeight={"bold"}>Current Canister:{selectCanisterID}</Text>
                             </chakra.div>
                             {loginLoading ? <LoadingSpinner/>:""}
+
                             {!loginLoading && !principal?
                             <chakra.div mt={10} borderRadius={"0.5rem"} display={"flex"}
                                         alignContent={"center"} justifyContent={"center"} flexDirection={"column"}>
@@ -80,6 +76,7 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                                     <Text ml={5} fontSize={"xl"} >Internet Identity</Text>
                                 </chakra.div>
                             </chakra.div>:""}
+
                             {principal?<chakra.div mt={5}>
                                 Principal: <Text>{principal}</Text>
                                 <chakra.div mt={3}

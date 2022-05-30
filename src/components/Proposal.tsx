@@ -4,10 +4,9 @@ import { useListProposals } from "../hooks/useListProposals";
 import { useWalletConnect } from "../hooks/useWalletConnect";
 import VoteProposal from "./VoteProposal";
 import { FiRefreshCw } from "react-icons/fi"
-import LoadingSpinner from "./LoadingSpinner";
 
 export default function Proposals() {
-  const {data,isLoading,isFetching,refetch} = useListProposals("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {data,isLoading,isFetching,refetch} = useListProposals()
   const {principal} = useWalletConnect()
   return (
     <>
@@ -72,7 +71,6 @@ export default function Proposals() {
                       :
                       "Non-operable"
                     }
-
                   </Td>
                 </Tr>
               )
