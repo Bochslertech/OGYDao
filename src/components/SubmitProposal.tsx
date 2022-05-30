@@ -56,11 +56,9 @@ export default function SubmitProposals() {
   const {mutationRemoveMember} = useRemoveMember("r7inp-6aaaa-aaaaa-aaabq-cai")
   const toast = useToast()
   const submitProposal = () => {
-    console.log(principal)
     if (!principal) {
       return;
     }
-    console.log("21312321",principal,selectCommand,subCommand)
     switch (selectCommand) {
       case "admin":
         if (content === "" || !content) {

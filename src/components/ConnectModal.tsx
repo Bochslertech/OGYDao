@@ -1,9 +1,6 @@
 import React, {useEffect} from "react";
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
+    Select,
     chakra,
     ModalBody,
     ModalCloseButton,
@@ -50,8 +47,17 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                         <DrawerCloseButton />
                         <DrawerBody mt={10}>
                             <Text fontSize={"xl"}>Wallet</Text>
+
+                            <chakra.div mt={3}>
+                                <Text>Select Canister</Text>
+                                <Select>
+                                    <option value={"ogy"}>OGY</option>
+                                    <option value={"management"}>Management</option>
+                                </Select>
+                                <Text>Current Canister:{}</Text>
+                            </chakra.div>
                             {loginLoading ? <LoadingSpinner/>:""}
-                            {!principal?
+                            {!loginLoading && !principal?
                             <chakra.div mt={10} borderRadius={"0.5rem"} display={"flex"}
                                         alignContent={"center"} justifyContent={"center"} flexDirection={"column"}>
                                 <chakra.div  bg={"purple.100"}
@@ -73,20 +79,21 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
 
                                     <Text ml={5} fontSize={"xl"} >Internet Identity</Text>
                                 </chakra.div>
-                            </chakra.div>:<chakra.div mt={5}>
-                                  Principal: <Text>{principal}</Text>
-                                  <chakra.div mt={3}
-                                              onClick={async ()=>{
-                                                  await handleLogout()
-                                                  onClose()
-                                              }}
-                                    bg={"purple.100"}
-                                    borderRadius={"0.375rem"}
-                                    cursor={"pointer"} mb={3} display={"flex"} alignItems={"center"}
-                                    flexDirection={"row"} w={"full"} h={"60px"} p={3} _hover={{bg:"purple.200"}}>
-                                      <Text ml={5} fontSize={"xl"} >Logout</Text>
-                                  </chakra.div>
-                              </chakra.div>}
+                            </chakra.div>:""}
+                            {principal?<chakra.div mt={5}>
+                                Principal: <Text>{principal}</Text>
+                                <chakra.div mt={3}
+                                onClick={async ()=>{
+                                await handleLogout()
+                                onClose()
+                            }}
+                                bg={"purple.100"}
+                                borderRadius={"0.375rem"}
+                                cursor={"pointer"} mb={3} display={"flex"} alignItems={"center"}
+                                flexDirection={"row"} w={"full"} h={"60px"} p={3} _hover={{bg:"purple.200"}}>
+                                <Text ml={5} fontSize={"xl"} >Logout</Text>
+                                </chakra.div>
+                                </chakra.div>:""}
                         </DrawerBody>
                     </DrawerContent>
                 </Drawer>

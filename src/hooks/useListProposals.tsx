@@ -6,7 +6,7 @@ import {iiAgentAtom} from "../state/auth";
 
 export const useListProposals = (canisterId:string) =>{
   const [agent] = useAtom(iiAgentAtom)
-  const {data,isLoading} = useQuery(   ["list_proposals",  canisterId ], async ()=> {
+  const {data,isLoading,isFetching,refetch} = useQuery(["list_proposals",  canisterId ], async ()=> {
     const nft = Actor.createActor<any>(idlFactory,{
       agent,
       canisterId,
@@ -16,5 +16,5 @@ export const useListProposals = (canisterId:string) =>{
     staleTime:60*1000*2,
   })
 
-  return {data,isLoading,canisterId}
+  return {data,isLoading,refetch,isFetching,canisterId}
 };

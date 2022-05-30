@@ -1,12 +1,25 @@
-import {TableContainer, chakra, Spinner,Text, Table, Thead, Tr, Th, Tbody, Td, Badge, Button} from "@chakra-ui/react";
+import {TableContainer, chakra, IconButton,Text, Table, Thead, Tr, Th, Tbody, Td, Badge, Button} from "@chakra-ui/react";
 import {toBigNumber} from "../utils/format";
 import { useListProposals } from "../hooks/useListProposals";
+import { useWalletConnect } from "../hooks/useWalletConnect";
+import VoteProposal from "./VoteProposal";
+import { FiRefreshCw } from "react-icons/fi"
 import LoadingSpinner from "./LoadingSpinner";
 
 export default function Proposals() {
-  const {data,isLoading} = useListProposals("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {data,isLoading,isFetching,refetch} = useListProposals("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {principal} = useWalletConnect()
   return (
     <>
+      <chakra.div display={"flex"} justifyContent={"right"} mr={3} >
+        <IconButton onClick={()=>{refetch()}}
+          isLoading={isFetching}
+          colorScheme='purple'
+          aria-label='refresh'
+          icon={<FiRefreshCw />}
+        />
+      </chakra.div>
+
       <TableContainer>
         <Table variant='simple'>
           <Thead>
@@ -18,16 +31,16 @@ export default function Proposals() {
               <Th>Operation</Th>
             </Tr>
           </Thead>
-          <Tbody>
+         <Tbody>
             {data?.map((v:any,k:any)=>{
-              // let disable = false
-              // for (let vote of v.voters ){
-              //   if (Wallet && Wallet.principal) {
-              //     if (vote[0].toText() === Wallet.principal) {
-              //       disable=true;
-              //     }
-              //   }
-              // }
+              let disable = false
+              for (let vote of v.voters ){
+                if (principal) {
+                  if (vote[0].toText() === principal) {
+                    disable=true;
+                  }
+                }
+              }
               return (
                 <Tr key={k}>
                   <Td>{v.id.toString()}</Td>
@@ -47,25 +60,25 @@ export default function Proposals() {
                     </chakra.div>
                   </Td>
                   <Td>
-                    {/*<Badge  colorScheme='green'>*/}
-                    {/*  {Object.keys(v.state)}*/}
-                    {/*</Badge>*/}
+                    <Badge>
+                      {Object.keys(v.state)}
+                    </Badge>
                   </Td>
                   <Td>
-                    {/*{Object.keys(v.state)[0] === "open"?*/}
-                    {/*  <>*/}
-                    {/*    <Button disabled={disable || isLoading} isLoading={isLoading} onClick={() => {vote("yes",v.id)}} size={"sm"} colorScheme='blue'>Yes</Button>*/}
-                    {/*    <Button disabled={disable || isLoading} isLoading={isLoading} onClick={() => {vote("no",v.id)}} size={"sm"} colorScheme='pink' ml={1}>No</Button>*/}
-                    {/*  </>*/}
-                    {/*  :*/}
-                    {/*  "Non-operable"*/}
-                    {/*}*/}
+                    {Object.keys(v.state)[0] === "open"?
+                      <>
+                        <VoteProposal disable={disable} id={v.id} />
+                      </>
+                      :
+                      "Non-operable"
+                    }
 
                   </Td>
                 </Tr>
               )
             })}
           </Tbody>
+
         </Table>
       </TableContainer>
       </>

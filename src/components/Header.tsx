@@ -39,7 +39,7 @@ export default function Header() {
   const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
   const [_,setLoginLoading] = useAtom(loginLoadingAtom)
   const {principal,handleIIAuthenticated,handlePLUGAuthenticated} = useWalletConnect()
-  console.log(principal)
+
   useEffect(()=> {
     (async ()=> {
       // II 登录

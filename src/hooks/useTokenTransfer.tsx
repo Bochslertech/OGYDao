@@ -14,6 +14,7 @@ export const useTokenTransfer = (canisterId:string) =>{
   },{
     onMutate: async proposal => {
       await queryClient.cancelQueries(["list_proposals",  canisterId ])
+      await queryClient.invalidateQueries(["list_proposals",  canisterId ])
     },
     onSuccess:(data,lockNFT) => {
     },

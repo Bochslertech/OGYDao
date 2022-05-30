@@ -7,7 +7,6 @@ export const useRemoveMember = (canisterId:string) =>{
   const {getActor} = useWalletConnect()
   //https://react-query.tanstack.com/guides/optimistic-updates
   let mutationRemoveMember = useMutation(async (proposal:any ) => {
-    console.log("dddd",proposal)
     const daoActor = await getActor(idlFactory,canisterId)
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
         'RemoveMembers' : [proposal.principal]
@@ -15,6 +14,7 @@ export const useRemoveMember = (canisterId:string) =>{
   },{
     onMutate: async proposal => {
       await queryClient.cancelQueries(["list_proposals",  canisterId ])
+      await queryClient.invalidateQueries(["list_proposals",  canisterId ])
     },
     onSuccess:(data,lockNFT) => {
     },
