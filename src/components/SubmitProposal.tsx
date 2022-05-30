@@ -51,48 +51,47 @@ export default function SubmitProposals() {
     "Admin Command",
     "Token Command",
   ]);
-  const [subCommands,setSubCommands] = useState( [
-    ["Remove Member","Add Member","Install Code"],
-    ["Transfer Token"],
-  ])
 
   useEffect(()=>{
     if (selectCommand === "Admin Command") {
-      setSubCommandList(subCommands[0])
+      if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+        setSubCommandList(  ["Remove Member","Add Member"])
+      }else {
+        setSubCommandList(  ["Remove Member","Add Member","Install Code"])
+      }
       setSubCommand("Remove Member")
     }else {
-      setSubCommandList(subCommands[1])
-      setSubCommand("Transfer Token")
+      if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+        setSubCommandList(  ["Transfer Token"])
+        setSubCommand("Transfer Token")
+      }else {
+        setSubCommandList(  [])
+      }
     }
   },[selectCommand])
 
   const [selectCanisterID] = useAtom(selectCanisterIDAtom)
   useEffect(()=>{
-    console.log(selectCanisterID)
-    // OGY
-    if (selectCanisterID === "r7inp-6aaaa-aaaaa-aaabq-cai") {
-      setSubCommands([
-        ["Remove Member","Add Member"],
-        ["Transfer Token"],
+    if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+      setCommands(  [
+        "Admin Command",
+        "Token Command",
       ])
-      setSelectCommand("Admin Command")
-      setCommands(
-        [
-          "Admin Command",
-          "Token Command",
-        ]
-      )
     }else {
-      setSubCommands([
-        ["Remove Member","Add Member","Install Code"],
+      setCommands(  [
+        "Admin Command",
       ])
-      setSelectCommand("Admin Command")
-      setCommands(
-        [
-          "Admin Command",
-        ]
-      )
     }
+
+    setSelectCommand("Admin Command")
+    if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+      setSubCommandList(  ["Remove Member","Add Member"])
+    }else {
+      setSubCommandList(  ["Remove Member","Add Member","Install Code"])
+    }
+    setSubCommand("Remove Member")
+
+
   },[selectCanisterID])
 
   // install code
@@ -331,7 +330,7 @@ export default function SubmitProposals() {
     <Container>
       <FormControl isRequired>
         <FormLabel htmlFor='Proposal content'>Select Proposal Type</FormLabel>
-        <Select onChange={(event)=>{setSelectCommand(event.target.value)}}>
+        <Select value={selectCommand} onChange={(event)=>{setSelectCommand(event.target.value)}}>
           {commands.map((v,k) => {
             return (
               <option key={k} value={v}>{v}</option>
@@ -341,7 +340,7 @@ export default function SubmitProposals() {
       </FormControl>
       <FormControl isRequired>
         <FormLabel htmlFor='Proposal content'>Command</FormLabel>
-        <Select onChange={(event)=> {setSubCommand(event.target.value)}}>
+        <Select value={subCommand} onChange={(event)=> {setSubCommand(event.target.value)}}>
           {subCommandList?.map((v,k) => {
             return (
               <option key={k} value={v}>{v}</option>
