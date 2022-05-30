@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   chakra,
   HStack,
@@ -17,6 +17,10 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import ConnectModal from "./ConnectModal";
 // @ts-ignore
 import { HashLink as RouterLink } from 'react-router-hash-link';
+import { AuthClient } from "@dfinity/auth-client";
+import { useAtom } from "jotai";
+import { connectWalletTypeAtom, useWalletConnect } from "../hooks/useWalletConnect";
+import { loginLoadingAtom } from "../state/auth";
 
 export default function Header() {
   const { toggleColorMode: toggleMode } = useColorMode();
@@ -31,6 +35,38 @@ export default function Header() {
     return scrollY.onChange(() => setY(scrollY.get()));
   }, [scrollY]);
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+
+
+  const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
+  const [_,setLoginLoading] = useAtom(loginLoadingAtom)
+  const {principal,handleIIAuthenticated,handlePLUGAuthenticated} = useWalletConnect()
+  console.log(principal)
+  useEffect(()=> {
+    (async ()=> {
+      // II 登录
+      switch (connectWT.wallet_type) {
+        case "II":
+          setLoginLoading(true)
+          const authClient = await AuthClient.create();
+          if (await authClient.isAuthenticated()) {
+            handleIIAuthenticated(authClient)
+          }
+          setLoginLoading(false)
+          break;
+        case "PLUG":
+          setLoginLoading(true)
+          await handlePLUGAuthenticated([
+            "ryjl3-tyaaa-aaaaa-aaaba-cai",
+            "rsjp2-riaaa-aaaak-aapna-cai",
+            "7fuij-vqaaa-aaaao-aabzq-cai",
+            "xzxhy-oiaaa-aaaah-qclnq-cai",
+          ])
+          setLoginLoading(false)
+          break
+      }
+    })();
+  },[])
   return (
     <React.Fragment>
       <ConnectModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
@@ -49,7 +85,6 @@ export default function Header() {
             w="full"
             h="full"
             alignItems="center"
-            justifyContent="space-between"
           >
             <Flex>
               <HStack spacing="5" display={{ base: "none", md: "flex" }}>

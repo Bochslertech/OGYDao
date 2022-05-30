@@ -87,15 +87,11 @@ export const useWalletConnect = () => {
         switch (walletType) {
             case "II":
                 (async ()=>{
-                    let tmpClient = authClient
-                    if (!authClient) {
-                        tmpClient  = await AuthClient.create();
-                        setAuthClient(tmpClient)
-                    }
-
-                    tmpClient?.login({
+                    const authClient = await AuthClient.create();
+                    setAuthClient(authClient)
+                    authClient?.login({
                         maxTimeToLive: BigInt(7 * 24 * 60 * 60 * 1e9), // one week
-                        onSuccess: () => handleIIAuthenticated(tmpClient as AuthClient),
+                        onSuccess: () => handleIIAuthenticated(authClient as AuthClient),
                     });
                 })()
 
