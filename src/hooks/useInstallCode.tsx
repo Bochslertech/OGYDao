@@ -13,11 +13,17 @@ export const useInstallCode = () =>{
   let mutationInstallCode = useMutation(async (proposal:any ) => {
     console.log(selectCanisterID)
     const daoActor = await getActor(idlFactory,selectCanisterID)
-    console.log(proposal)
+    console.log({ 'AdminCommand' :  {
+        'InstallCode' : {
+          'ages' : [...proposal.ages],
+          'wasm' : [...proposal.wasm],
+          'canisterId' : proposal.canisterId,
+        },
+      }})
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
         'InstallCode' : {
-          'ages' : proposal.args,
-          'wasm' : proposal.wasm,
+          'ages' : [...proposal.ages],
+          'wasm' : [...proposal.wasm],
           'canisterId' : proposal.canisterId,
         },
       }})

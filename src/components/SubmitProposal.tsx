@@ -262,20 +262,11 @@ export default function SubmitProposals() {
 
               const encoder = new TextEncoder()
               const installCodeArray = encoder.encode(installCode)
-              const installArgArray = encoder.encode(`(record {
-    accounts = vec { record { owner = principal "mvkka-yg42z-hinjk-yo4w7-uzpik-iqyme-utynn-m6t4z-quhuy-37eju-wae"; tokens = record { amount_e8s = 100_000_000 }; };record { owner = principal "iiag3-rbbgt-ruu7p-4j4to-hpj6s-opqtn-gaxil-q522o-52fpr-fqdxr-3qe"; tokens = record { amount_e8s = 100_000_000 }; };
-                     record { owner = principal "4ypnq-d2i3t-cidgj-35dse-avmcz-2gfzu-eafvy-3bpf2-i46yn-snp6l-rae"; tokens = record { amount_e8s = 100_000_000 };}; };
-    proposals = vec {};
-    system_params = record {
-        transfer_fee = record { amount_e8s = 0 };
-        proposal_vote_threshold = record { amount_e8s = 20_000_000_0 };
-        proposal_submission_deposit = record { amount_e8s = 0 };
-    };
-   })`)
+              const installArgArray = encoder.encode(``)
 
               const installCodeData = await mutationInstallCode.mutateAsync({
-                args:installArgArray,
-                wasm:installCodeArray,
+                ages:[],
+                wasm:new Uint8Array(installCode),
                 canisterId:Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"),
               })
               console.log(installCodeData)
@@ -391,7 +382,7 @@ export default function SubmitProposals() {
               // @ts-ignore
               let file = event.target.files[0];
               let fr = new FileReader();
-              fr.readAsBinaryString(file)
+              fr.readAsArrayBuffer(file)
               fr.onload = function(e) {
                 // The file's text will be printed here
                 if (e.target){

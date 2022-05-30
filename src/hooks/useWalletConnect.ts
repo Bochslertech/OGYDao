@@ -93,7 +93,7 @@ export const useWalletConnect = () => {
                 return
             case "PLUG":
                 (async ()=>{
-                    await handlePLUGAuthenticated(["r7inp-6aaaa-aaaaa-aaabq-cai"])
+                    await handlePLUGAuthenticated(["r7inp-6aaaa-aaaaa-aaabq-cai","rrkah-fqaaa-aaaaa-aaaaq-cai"])
                 })()
                 return
             default:
