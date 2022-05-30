@@ -11,7 +11,8 @@ import { useRemoveMember } from "../hooks/useRemoveMember";
 import { useAtom } from "jotai";
 import { selectCanisterIDAtom } from "../state/auth";
 import { useInstallCode } from "../hooks/useInstallCode";
-import { Account, Proposal, SystemParams, Tokens } from "../canister/ogy_dao/ogy_dao";
+import { init } from "../canister/ogy_dao/ogy_dao.did.js";
+import { IDL} from "@dfinity/candid";
 
 export default function SubmitProposals() {
   const {principal} = useWalletConnect()
@@ -24,6 +25,8 @@ export default function SubmitProposals() {
       setContent(event.target.value)
     }
   }
+
+  const [BasicDaoStableStorage] = init({IDL})
 
   const changeThreshold = (threshold:string) => {
     setThreshold(threshold)
@@ -95,7 +98,8 @@ export default function SubmitProposals() {
 
   // install code
   const [installCode,setInstallCode ] = useState<any>(null)
-  const [voters,setVoters ] = useState<any>(null)
+  const [voterStr,setVoterStr ] = useState<any>(null)
+
 
   const {mutationAddMember} = useAddMember()
   const {mutationRemoveMember} = useRemoveMember()
@@ -213,7 +217,7 @@ export default function SubmitProposals() {
             })()
             return;
           case "Install Code":
-            if (voters === "" ||!voters) {
+            if (voterStr === "" ||!voterStr) {
               toast({
                 title: 'Admin command',
                 description: "voters cannot be empty",
@@ -249,23 +253,32 @@ export default function SubmitProposals() {
 
             (async () => {
               const thresholdIn = parseInt(threshold)
+              let voters = voterStr.split(/\r?\n/);
+              console.log(voters)
               let installArg = {
                 system_params : {
-                  'transfer_fee' : {amount_e8s:BigInt(0)},
-                  'proposal_vote_threshold' : {amount_e8s: BigInt(thresholdIn)},
-                  'proposal_submission_deposit' : {amount_e8s:BigInt(0)},
+                  transfer_fee : {amount_e8s:BigInt(0)},
+                  proposal_vote_threshold : {amount_e8s: BigInt(thresholdIn)},
+                  proposal_submission_deposit : {amount_e8s:BigInt(0)},
                 },
-                accounts : [{owner : Principal.fromText("iiag3-rbbgt-ruu7p-4j4to-hpj6s-opqtn-gaxil-q522o-52fpr-fqdxr-3qe"),
-                  'tokens' : {amount_e8s:BigInt(1)}}],
+                accounts : [
+
+                ] as any[],
                 proposals : [],
               }
+              let accountInfos :any[] = []
+              for (let i = 0;i<voters.length;i++) {
+                accountInfos.push({
+                  owner : Principal.fromText(voters[i]),
+                  tokens: {amount_e8s:BigInt(1)}
+                })
+              }
+              installArg.accounts = accountInfos
 
-              const encoder = new TextEncoder()
-              const installCodeArray = encoder.encode(installCode)
-              const installArgArray = encoder.encode(``)
-
+              console.log(installArg)
+              console.log(IDL.encode([BasicDaoStableStorage],[installArg]))
               const installCodeData = await mutationInstallCode.mutateAsync({
-                ages:[],
+                args:IDL.encode([BasicDaoStableStorage],[installArg]),
                 wasm:new Uint8Array(installCode),
                 canisterId:Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"),
               })
@@ -360,7 +373,7 @@ export default function SubmitProposals() {
           <FormLabel htmlFor='Voters'>
             Votes
           </FormLabel>
-          <Textarea onChange={(event) => {setVoters(event.target.value)}} placeholder={"Enter voter, multiple lines please"}/>
+          <Textarea onChange={(event) => {setVoterStr(event.target.value)}} placeholder={"Enter voter, multiple lines please"}/>
         </FormControl>
           <FormControl isRequired>
             <FormLabel htmlFor='Voters'>
@@ -401,9 +414,6 @@ export default function SubmitProposals() {
             onChange={(event) =>
             {changePrincipal(event)}} id='principal' placeholder='principal' />
         </FormControl>}
-
-
-
       <Button
         mt={4}
         colorScheme='teal'

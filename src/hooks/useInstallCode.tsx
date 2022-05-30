@@ -4,6 +4,7 @@ import { useWalletConnect } from "./useWalletConnect";
 import { useAtom } from "jotai";
 import { selectCanisterIDAtom } from "../state/auth";
 import { Principal } from "@dfinity/principal";
+import { IDL } from "@dfinity/candid";
 
 export const useInstallCode = () =>{
   const [selectCanisterID] = useAtom(selectCanisterIDAtom)
@@ -15,18 +16,19 @@ export const useInstallCode = () =>{
     const daoActor = await getActor(idlFactory,selectCanisterID)
     console.log({ 'AdminCommand' :  {
         'InstallCode' : {
-          'ages' : [...proposal.ages],
+          'args' : [...proposal.args],
           'wasm' : [...proposal.wasm],
           'canisterId' : proposal.canisterId,
         },
       }})
+
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
         'InstallCode' : {
-          'ages' : [...proposal.ages],
+          'args' : [...proposal.args],
           'wasm' : [...proposal.wasm],
           'canisterId' : proposal.canisterId,
         },
-      }})
+      }},"test")
   },{
     onMutate: async proposal => {
       await queryClient.cancelQueries(["list_proposals",  selectCanisterID ])

@@ -40,7 +40,7 @@ export const idlFactory = ({ IDL }) => {
     }),
     'RemoveMembers' : IDL.Vec(IDL.Principal),
     'InstallCode' : IDL.Record({
-      'ages' : IDL.Vec(IDL.Nat8),
+      'args' : IDL.Vec(IDL.Nat8),
       'wasm' : IDL.Vec(IDL.Nat8),
       'canisterId' : IDL.Principal,
     }),
@@ -138,7 +138,7 @@ export const init = ({ IDL }) => {
     }),
     'RemoveMembers' : IDL.Vec(IDL.Principal),
     'InstallCode' : IDL.Record({
-      'ages' : IDL.Vec(IDL.Nat8),
+      'args' : IDL.Vec(IDL.Nat8),
       'wasm' : IDL.Vec(IDL.Nat8),
       'canisterId' : IDL.Principal,
     }),

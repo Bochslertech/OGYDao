@@ -1,12 +1,12 @@
 import type { Principal } from '@dfinity/principal';
 export interface Account { 'owner' : Principal, 'tokens' : Tokens }
 export type AdminCommand = {
-    'Mint' : { 'recipient' : Principal, 'amount_e8s' : bigint }
-  } |
+  'Mint' : { 'recipient' : Principal, 'amount_e8s' : bigint }
+} |
   { 'RemoveMembers' : Array<Principal> } |
   {
     'InstallCode' : {
-      'ages' : Array<number>,
+      'args' : Array<number>,
       'wasm' : Array<number>,
       'canisterId' : Principal,
     }
@@ -18,8 +18,8 @@ export interface BasicDaoStableStorage {
   'proposals' : Array<Proposal>,
 }
 export type CommandError = {
-    'Error' : { 'error_message' : string, 'error_type' : ErrorCode }
-  } |
+  'Error' : { 'error_message' : string, 'error_type' : ErrorCode }
+} |
   { 'SendTokenError' : null } |
   { 'RequestTypeError' : null } |
   { 'InsufficientBalance' : null };
@@ -32,7 +32,7 @@ export interface DAO {
   'submit_proposal' : (arg_0: ProposalType, arg_1: string) => Promise<Result_2>,
   'transfer' : (arg_0: TransferArgs) => Promise<Result_1>,
   'update_system_params' : (arg_0: UpdateSystemParamsPayload) => Promise<
-      undefined
+    undefined
     >,
   'vote' : (arg_0: VoteArgs) => Promise<Result>,
 }
@@ -74,8 +74,8 @@ export interface SystemParams {
   'proposal_submission_deposit' : Tokens,
 }
 export type TokenCommand = {
-    'Transfer' : { 'recipient' : Principal, 'amount' : bigint }
-  };
+  'Transfer' : { 'recipient' : Principal, 'amount' : bigint }
+};
 export interface Tokens { 'amount_e8s' : bigint }
 export interface TransferArgs { 'to' : Principal, 'amount' : Tokens }
 export interface UpdateSystemParamsPayload {
