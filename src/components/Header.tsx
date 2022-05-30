@@ -36,8 +36,6 @@ export default function Header() {
   }, [scrollY]);
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-
-
   const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
   const [_,setLoginLoading] = useAtom(loginLoadingAtom)
   const {principal,handleIIAuthenticated,handlePLUGAuthenticated} = useWalletConnect()
@@ -57,10 +55,7 @@ export default function Header() {
         case "PLUG":
           setLoginLoading(true)
           await handlePLUGAuthenticated([
-            "ryjl3-tyaaa-aaaaa-aaaba-cai",
-            "rsjp2-riaaa-aaaak-aapna-cai",
-            "7fuij-vqaaa-aaaao-aabzq-cai",
-            "xzxhy-oiaaa-aaaah-qclnq-cai",
+            "zkiie-xyaaa-aaaah-abdra-cai"
           ])
           setLoginLoading(false)
           break
@@ -98,7 +93,8 @@ export default function Header() {
                   display="inline-flex"
                   alignItems="center"
                   fontSize="md"
-                  _hover={{ color: "purple.600" }}
+                  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                  _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
                 >
                   Home
                 </Button>

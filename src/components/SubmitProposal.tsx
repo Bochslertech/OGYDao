@@ -1,14 +1,21 @@
-import {Button,Alert,AlertIcon, Container,FormControl,Select, FormLabel,
-  NumberInputStepper,NumberDecrementStepper,NumberIncrementStepper,
-  Input,Textarea,NumberInput,NumberInputField } from "@chakra-ui/react";
+import {
+  Button, Alert, AlertIcon, Container, FormControl, Select, FormLabel,
+  NumberInputStepper, NumberDecrementStepper, NumberIncrementStepper,
+  Input, Textarea, NumberInput, NumberInputField, useToast
+} from "@chakra-ui/react";
 import {useState, ChangeEvent, useEffect} from "react";
 import {Principal} from "@dfinity/principal";
 import {toBigNumber} from "../utils/format";
+import { useWalletConnect } from "../hooks/useWalletConnect";
+import { useMutation } from "react-query";
+import { useAddMember } from "../hooks/useAddMember";
+import { useRemoveMember } from "../hooks/useRemoveMember";
 
 export default function SubmitProposals() {
+  const {principal} = useWalletConnect()
   const [content,setContent] = useState<string|null>(null)
   const [amount,setAmount] = useState<string|null>(null)
-  const [principal,setPrincipal] = useState<string|null>(null)
+  const [proposalPid,setProposalPid] = useState<string|null>(null)
   const changeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
     if (event.target.value) {
       setContent(event.target.value)
@@ -21,7 +28,7 @@ export default function SubmitProposals() {
 
   const changePrincipal = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
-      setPrincipal(event.target.value)
+      setProposalPid(event.target.value)
     }
   }
 
@@ -29,7 +36,7 @@ export default function SubmitProposals() {
   const [selectCommand, setSelectCommand] = useState<string>("admin");
   const [subCommand, setSubCommand] = useState<string>("Remove Member");
   
-  const [commandContent, setCommandContent] = useState<string[]|null>(null);
+  const [subCommandList, setSubCommandList] = useState<string[]|null>(null);
   const commands = [
     ["Remove Member","Add Member"],
     ["Transfer Token"],
@@ -37,14 +44,119 @@ export default function SubmitProposals() {
 
   useEffect(()=>{
     if (selectCommand === "admin") {
-      setCommandContent(commands[0])
+      setSubCommandList(commands[0])
       setSubCommand("Remove Member")
     }else {
-      setCommandContent(commands[1])
+      setSubCommandList(commands[1])
       setSubCommand("Transfer Token")
     }
   },[selectCommand])
 
+  const {mutationAddMember} = useAddMember("")
+  const {mutationRemoveMember} = useRemoveMember("")
+  const toast = useToast()
+  const submitProposal = () => {
+    console.log(principal)
+    if (!principal) {
+      return;
+    }
+    console.log("21312321",principal,selectCommand,subCommand)
+    switch (selectCommand) {
+      case "admin":
+        if (content === "" || !content) {
+          toast({
+            title: 'Token command',
+            description: "Content cannot be empty",
+            status: 'error',
+            duration: 3000,
+            position: 'top',
+            isClosable: true,
+          })
+          return;
+        }
+        if (proposalPid === "" || !proposalPid) {
+          toast({
+            title: 'Token command',
+            description: "principal cannot be empty",
+            status: 'error',
+            duration: 3000,
+            position: 'top',
+            isClosable: true,
+          })
+          return
+        }
+        console.log(content,proposalPid,subCommand)
+        switch (subCommand) {
+          case "Remove Member":
+            mutationAddMember.mutate({
+              principal:Principal.fromText(proposalPid),
+              content:content
+            })
+            toast({
+              title: 'Admin command',
+              description: "Remove Member success",
+              status: 'success',
+              duration: 3000,
+              position: 'top',
+              isClosable: true,
+            })
+            return;
+          case "Add Member":
+            mutationRemoveMember.mutate({
+              principal:Principal.fromText(proposalPid),
+              content:content
+            })
+            toast({
+              title: 'Admin command',
+              description: "Remove Member success",
+              status: 'success',
+              duration: 3000,
+              position: 'top',
+              isClosable: true,
+            })
+            return;
+        }
+        return;
+      case "token":
+        if (content === "" || !content) {
+          toast({
+            title: 'Token command',
+            description: "Content cannot be empty",
+            status: 'error',
+            duration: 3000,
+            position: 'top',
+            isClosable: true,
+          })
+          return;
+        }
+        if (proposalPid === "" || !proposalPid) {
+          toast({
+            title: 'Token command',
+            description: "principal cannot be empty",
+            status: 'error',
+            duration: 3000,
+            position: 'top',
+            isClosable: true,
+          })
+          return;
+        }
+
+        if (amount === "" || !amount) {
+          toast({
+            title: 'Token command',
+            description: "amount cannot be empty",
+            status: 'error',
+            duration: 3000,
+            position: 'top',
+            isClosable: true,
+          })
+          return;
+        }
+        // const amountIn = parseFloat(amount)
+
+        return;
+    }
+  }
   return (
     <Container>
       <FormControl isRequired>
@@ -57,7 +169,7 @@ export default function SubmitProposals() {
       <FormControl isRequired>
         <FormLabel htmlFor='Proposal content'>Command</FormLabel>
         <Select onChange={(event)=> {setSubCommand(event.target.value)}}>
-          {commandContent?.map((v,k) => {
+          {subCommandList?.map((v,k) => {
             return (
               <option key={k} value={v}>{v}</option>
             )
@@ -97,6 +209,8 @@ export default function SubmitProposals() {
         isLoading={sumbitLoading}
         bg={"purple.500"}
         _hover={{bg:"purple.300"}}
+        onClick={submitProposal}
+        disabled={!principal}
       >
         Submit
       </Button>

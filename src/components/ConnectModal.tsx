@@ -49,7 +49,7 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerBody mt={10}>
-                            <Text fontSize={"xl"}>Choose You wallet</Text>
+                            <Text fontSize={"xl"}>Wallet</Text>
                             {loginLoading ? <LoadingSpinner/>:""}
                             {!principal?
                             <chakra.div mt={10} borderRadius={"0.5rem"} display={"flex"}
@@ -75,6 +75,17 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                                 </chakra.div>
                             </chakra.div>:<chakra.div mt={5}>
                                   Principal: <Text>{principal}</Text>
+                                  <chakra.div mt={3}
+                                              onClick={async ()=>{
+                                                  await handleLogout()
+                                                  onClose()
+                                              }}
+                                    bg={"purple.100"}
+                                    borderRadius={"0.375rem"}
+                                    cursor={"pointer"} mb={3} display={"flex"} alignItems={"center"}
+                                    flexDirection={"row"} w={"full"} h={"60px"} p={3} _hover={{bg:"purple.200"}}>
+                                      <Text ml={5} fontSize={"xl"} >Logout</Text>
+                                  </chakra.div>
                               </chakra.div>}
                         </DrawerBody>
                     </DrawerContent>

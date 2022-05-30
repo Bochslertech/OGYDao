@@ -6,7 +6,8 @@ export const useAddMember = (canisterId:string) =>{
   const queryClient =useQueryClient()
   const {getActor} = useWalletConnect()
   //https://react-query.tanstack.com/guides/optimistic-updates
-  let mutationSellNFT = useMutation(async (proposal:any ) => {
+  let mutationAddMember = useMutation(async (proposal:any ) => {
+    console.log(proposal)
     const daoActor = await getActor(idlFactory,canisterId)
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
         'AddMembers' : proposal.principal
@@ -18,5 +19,5 @@ export const useAddMember = (canisterId:string) =>{
     onSuccess:(data,lockNFT) => {
     },
   })
-  return {mutationSellNFT}
+  return {mutationAddMember}
 };

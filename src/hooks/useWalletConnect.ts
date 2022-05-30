@@ -8,12 +8,7 @@ import { atomWithLocalStorage} from "../atoms/atomWithLocalStorage";
 import {IDL} from "@dfinity/candid";
 import {principalToAccountIdentifier} from "../utils/principal";
 
-const wl = [
-    "ryjl3-tyaaa-aaaaa-aaaba-cai",
-    "rsjp2-riaaa-aaaak-aapna-cai",
-    "7fuij-vqaaa-aaaao-aabzq-cai",
-    "xzxhy-oiaaa-aaaah-qclnq-cai",
-]
+
 // @ts-ignore
 export const PLUG = window.ic?.plug;
 export const connectWalletTypeAtom = atomWithLocalStorage("CONNECT_WALLET_TYPE", {});
@@ -98,7 +93,7 @@ export const useWalletConnect = () => {
                 return
             case "PLUG":
                 (async ()=>{
-                    await handlePLUGAuthenticated(wl as string[])
+                    await handlePLUGAuthenticated(["zkiie-xyaaa-aaaah-abdra-cai"])
                 })()
                 return
             default:
