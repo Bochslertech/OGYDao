@@ -19,7 +19,7 @@ function Index(){
         <chakra.div mt={3}>
           <Text>Select Canister</Text>
           <Select value={selectCanisterID} width={"200px"} onChange={(event) => {setSelectCanisterID(event.target.value)}}>
-            <option  value={DAO_CANISTER_ID}>OGY</option>
+            <option  value={DAO_CANISTER_ID}>Token</option>
             <option  value={MANAGE_CANISTER_ID}>Management</option>
           </Select>
           <Text color={"purple.700"} fontWeight={"bold"}>Current CanisterID:{selectCanisterID}</Text>

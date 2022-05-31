@@ -26,7 +26,6 @@ export const useWalletConnect = () => {
     const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
     const resetWalletType = useResetAtom(connectWalletTypeAtom)
     const {DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST} = getConfig()
-    console.log(DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST)
     const handleIIAuthenticated = async (authClient : AuthClient) => {
         const identity : CustomIdentity = authClient.getIdentity();
         const agent = new HttpAgent({ identity, host: "https://ic0.app" });

@@ -14,6 +14,8 @@ import { useInstallCode } from "../hooks/useInstallCode";
 import { init } from "../canister/ogy_dao/ogy_dao.did.js";
 import { IDL} from "@dfinity/candid";
 import { getConfig } from "../config/config";
+import { parseInt } from "lodash";
+import { useTokenTransfer } from "../hooks/useTokenTransfer";
 
 export default function SubmitProposals() {
   const {principal} = useWalletConnect()
@@ -104,6 +106,7 @@ export default function SubmitProposals() {
   const {mutationAddMember} = useAddMember()
   const {mutationRemoveMember} = useRemoveMember()
   const {mutationInstallCode} = useInstallCode()
+  const {mutationTransferToken} = useTokenTransfer()
   const toast = useToast()
   const submitProposal = () => {
     if (!principal) {
@@ -252,6 +255,7 @@ export default function SubmitProposals() {
             }
 
             (async () => {
+              setSubmitLoading(true)
               const thresholdIn = parseInt(threshold)
               let voters = voterStr.split(/\r?\n/);
               console.log(voters)
@@ -283,12 +287,32 @@ export default function SubmitProposals() {
                 canisterId:Principal.fromText("zkiie-xyaaa-aaaah-abdra-cai"),
               })
               console.log(installCodeData)
+              if ("err" in installCodeData) {
+                toast({
+                  title: 'Admin command',
+                  description: installCodeData.err,
+                  status: 'error',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }else {
+                toast({
+                  title: 'Admin command',
+                  description: "submit success",
+                  status: 'success',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }
+              setSubmitLoading(false)
             })()
 
             return;
         }
         return;
-      case "token":
+      case "Token Command":
         if (content === "" || !content) {
           toast({
             title: 'Token command',
@@ -323,8 +347,35 @@ export default function SubmitProposals() {
           })
           return;
         }
-        // const amountIn = parseFloat(amount)
-
+        let amountIn = parseInt(amount);
+        (async ()=>{
+          setSubmitLoading(true)
+          const data = await mutationTransferToken.mutateAsync({
+            principal:Principal.fromText(proposalPid),
+            amount:BigInt(amountIn*1e8),
+            content:content,
+          })
+          if ("err" in data) {
+            toast({
+              title: 'Token command',
+              description: data.err,
+              status: 'error',
+              duration: 3000,
+              position: 'top',
+              isClosable: true,
+            })
+          }else {
+            toast({
+              title: 'Token command',
+              description: "submit success",
+              status: 'success',
+              duration: 3000,
+              position: 'top',
+              isClosable: true,
+            })
+          }
+          setSubmitLoading(false)
+        })()
         return;
     }
   }

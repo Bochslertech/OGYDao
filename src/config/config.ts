@@ -1,6 +1,5 @@
 const { REACT_APP_NODE_ENV } = process.env;
 export function getConfig(){
-  console.log(process.env)
   if (REACT_APP_NODE_ENV === "development"){
     return {
       DAO_CANISTER_ID:"r7inp-6aaaa-aaaaa-aaabq-cai",
