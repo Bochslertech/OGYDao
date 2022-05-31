@@ -273,7 +273,7 @@ export default function SubmitProposals() {
               let installArg = {
                 system_params : {
                   transfer_fee : {amount_e8s:BigInt(0)},
-                  proposal_vote_threshold : {amount_e8s: BigInt(thresholdIn)},
+                  proposal_vote_threshold : {amount_e8s: BigInt(thresholdIn*1e8)},
                   proposal_submission_deposit : {amount_e8s:BigInt(0)},
                 },
                 accounts : [
@@ -285,7 +285,7 @@ export default function SubmitProposals() {
               for (let i = 0;i<voters.length;i++) {
                 accountInfos.push({
                   owner : Principal.fromText(voters[i]),
-                  tokens: {amount_e8s:BigInt(1)}
+                  tokens: {amount_e8s:BigInt(1*1e8)}
                 })
               }
               installArg.accounts = accountInfos

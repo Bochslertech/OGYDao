@@ -11,6 +11,7 @@ export default function Panel() {
   const {data,isLoading} = useSystemConfig()
 
   const {data:listAccounts,isLoading:isLoadingAccounts} = useListAccounts()
+  console.log("list account",listAccounts)
   return (
     <>
 
