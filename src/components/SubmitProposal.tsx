@@ -220,6 +220,17 @@ export default function SubmitProposals() {
             })()
             return;
           case "Install Code":
+            if (content === "" || !content) {
+              toast({
+                title: 'Token command',
+                description: "Content cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
             if (voterStr === "" ||!voterStr) {
               toast({
                 title: 'Admin command',
@@ -285,6 +296,7 @@ export default function SubmitProposals() {
                 args:new Uint8Array(IDL.encode([BasicDaoStableStorage],[installArg])),
                 wasm:new Uint8Array(installCode),
                 canisterId:Principal.fromText("zkiie-xyaaa-aaaah-abdra-cai"),
+                content:content,
               })
               console.log(installCodeData)
               if ("err" in installCodeData) {

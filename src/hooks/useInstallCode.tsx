@@ -28,7 +28,7 @@ export const useInstallCode = () =>{
           'wasm' : [...proposal.wasm],
           'canisterId' : proposal.canisterId,
         },
-      }},"test")
+      }},proposal.content)
   },{
     onMutate: async proposal => {
       await queryClient.cancelQueries(["list_proposals",  selectCanisterID ])
