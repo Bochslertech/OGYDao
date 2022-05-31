@@ -12,7 +12,7 @@ export const useAddMember = () =>{
   let mutationAddMember = useMutation(async (proposal:any ) => {
     const daoActor = await getActor(idlFactory,selectCanisterID)
     return await daoActor.submit_proposal({ 'AdminCommand' :  {
-        'AddMembers' : [{owner:proposal.principal,tokens:{amount_e8s:BigInt(1)}}],
+        'AddMembers' : [{owner:proposal.principal,tokens:{amount_e8s:BigInt(1*1e8)}}],
       }},proposal.content)
   },{
     onMutate: async proposal => {
