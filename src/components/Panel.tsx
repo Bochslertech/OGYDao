@@ -8,9 +8,9 @@ import { useListAccounts } from "../hooks/useListAccount";
 import { Principal } from "@dfinity/principal";
 
 export default function Panel() {
-  const {data,isLoading} = useSystemConfig("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {data,isLoading} = useSystemConfig()
 
-  const {data:listAccounts,isLoading:isLoadingAccounts} = useListAccounts("r7inp-6aaaa-aaaaa-aaabq-cai")
+  const {data:listAccounts,isLoading:isLoadingAccounts} = useListAccounts()
   return (
     <>
 

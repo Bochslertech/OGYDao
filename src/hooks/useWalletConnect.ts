@@ -7,6 +7,7 @@ import {useResetAtom} from "jotai/utils";
 import { atomWithLocalStorage} from "../atoms/atomWithLocalStorage";
 import {IDL} from "@dfinity/candid";
 import {principalToAccountIdentifier} from "../utils/principal";
+import { getConfig } from "../config/config";
 
 
 // @ts-ignore
@@ -24,7 +25,8 @@ export const useWalletConnect = () => {
     const [authClient, setAuthClient] = useState<AuthClient|null>(null);
     const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
     const resetWalletType = useResetAtom(connectWalletTypeAtom)
-
+    const {DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST} = getConfig()
+    console.log(DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST)
     const handleIIAuthenticated = async (authClient : AuthClient) => {
         const identity : CustomIdentity = authClient.getIdentity();
         const agent = new HttpAgent({ identity, host: "https://ic0.app" });
@@ -52,12 +54,12 @@ export const useWalletConnect = () => {
         try {
             let isConnected = await PLUG.isConnected()
             if (!isConnected) {
-                await PLUG.requestConnect({whitelist,host:"http://127.0.0.1:8000"})
+                await PLUG.requestConnect({whitelist,host:IC_HOST})
             }
             isConnected = await PLUG.isConnected()
             if (isConnected) {
                 try {
-                    await PLUG.createAgent({whitelist,host:"http://127.0.0.1:8000"} )
+                    await PLUG.createAgent({whitelist,host:IC_HOST} )
                     if (PLUG.agent) {
                         const principal = await PLUG.getPrincipal()
                         setPrincipal(principal.toString())
@@ -93,7 +95,7 @@ export const useWalletConnect = () => {
                 return
             case "PLUG":
                 (async ()=>{
-                    await handlePLUGAuthenticated(["r7inp-6aaaa-aaaaa-aaabq-cai","rrkah-fqaaa-aaaaa-aaaaq-cai"])
+                    await handlePLUGAuthenticated([DAO_CANISTER_ID,MANAGE_CANISTER_ID])
                 })()
                 return
             default:
@@ -141,7 +143,6 @@ export const useWalletConnect = () => {
                 }));
                 return;
         }
-
     }
 
 

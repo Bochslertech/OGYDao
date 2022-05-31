@@ -8,6 +8,7 @@ import {useWalletConnect} from "../hooks/useWalletConnect";
 import {useAtom} from "jotai";
 import { loginLoadingAtom, selectCanisterIDAtom } from "../state/auth";
 import LoadingSpinner from "./LoadingSpinner";
+import { getConfig } from "../config/config";
 
 const ConnectModal = ({isOpen,onOpen,onClose}:{
     isOpen:boolean
@@ -31,6 +32,7 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
     },[principal])
     const [loginLoading] = useAtom(loginLoadingAtom)
     const [selectCanisterID,setSelectCanisterID] = useAtom(selectCanisterIDAtom)
+    const {DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST} = getConfig()
     return (
         <>
                 <Drawer
@@ -46,8 +48,8 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                             <chakra.div mt={3}>
                                 <Text>Select Canister</Text>
                                 <Select value={selectCanisterID} onChange={(event) => {setSelectCanisterID(event.target.value)}}>
-                                    <option  value={"r7inp-6aaaa-aaaaa-aaabq-cai"}>OGY</option>
-                                    <option  value={"rrkah-fqaaa-aaaaa-aaaaq-cai"}>Management</option>
+                                    <option  value={DAO_CANISTER_ID}>Token</option>
+                                    <option  value={MANAGE_CANISTER_ID}>Management</option>
                                 </Select>
                                 <Text color={"purple.700"} fontWeight={"bold"}>Current Canister:{selectCanisterID}</Text>
                             </chakra.div>

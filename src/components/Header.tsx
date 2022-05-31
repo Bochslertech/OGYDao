@@ -21,6 +21,7 @@ import { AuthClient } from "@dfinity/auth-client";
 import { useAtom } from "jotai";
 import { connectWalletTypeAtom, useWalletConnect } from "../hooks/useWalletConnect";
 import { loginLoadingAtom } from "../state/auth";
+import { getConfig } from "../config/config";
 
 export default function Header() {
   const { toggleColorMode: toggleMode } = useColorMode();
@@ -39,7 +40,7 @@ export default function Header() {
   const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
   const [_,setLoginLoading] = useAtom(loginLoadingAtom)
   const {principal,handleIIAuthenticated,handlePLUGAuthenticated} = useWalletConnect()
-
+  const {DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST} = getConfig()
   useEffect(()=> {
     (async ()=> {
       // II 登录
@@ -55,8 +56,8 @@ export default function Header() {
         case "PLUG":
           setLoginLoading(true)
           await handlePLUGAuthenticated([
-            "r7inp-6aaaa-aaaaa-aaabq-cai",
-            "rrkah-fqaaa-aaaaa-aaaaq-cai"
+            DAO_CANISTER_ID,
+            MANAGE_CANISTER_ID
           ])
           setLoginLoading(false)
           break
