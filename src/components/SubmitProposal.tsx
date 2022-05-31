@@ -1,7 +1,7 @@
 import {
   Button, Container, FormControl, Select, FormLabel,
   NumberInputStepper, NumberDecrementStepper, NumberIncrementStepper,
-  Input, Textarea, NumberInput, NumberInputField, useToast
+  Input, Textarea, NumberInput, NumberInputField, useToast,Text,Link
 } from "@chakra-ui/react";
 import {useState, ChangeEvent, useEffect} from "react";
 import {Principal} from "@dfinity/principal";
@@ -468,6 +468,14 @@ export default function SubmitProposals() {
               console.log(event)
             }} placeholder='principal' />
           </FormControl>
+        <FormControl >
+          <Link color={"purple.500"} _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                 style={{ textDecoration: 'none',outline:'none' }}
+                 _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
+                 href={"/example.wasm"} isExternal={true}>
+            Download example.wasm
+          </Link>
+        </FormControl>
         </>:
         <FormControl isRequired>
           <FormLabel htmlFor='Principal'>
