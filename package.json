@@ -37,7 +37,7 @@
     "web-vitals": "^0.2.2"
   },
   "scripts": {
-    "start": "dotenv -e .env.development react-scripts start",
+    "start": "dotenv -e .env.production react-scripts start",
     "build": "dotenv -e .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

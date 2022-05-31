@@ -13,6 +13,7 @@ import { selectCanisterIDAtom } from "../state/auth";
 import { useInstallCode } from "../hooks/useInstallCode";
 import { init } from "../canister/ogy_dao/ogy_dao.did.js";
 import { IDL} from "@dfinity/candid";
+import { getConfig } from "../config/config";
 
 export default function SubmitProposals() {
   const {principal} = useWalletConnect()
@@ -52,16 +53,17 @@ export default function SubmitProposals() {
     "Token Command",
   ]);
 
+  const {DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST} = getConfig()
   useEffect(()=>{
     if (selectCommand === "Admin Command") {
-      if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+      if (selectCanisterID ===  DAO_CANISTER_ID ) {
         setSubCommandList(  ["Remove Member","Add Member"])
       }else {
         setSubCommandList(  ["Remove Member","Add Member","Install Code"])
       }
       setSubCommand("Remove Member")
     }else {
-      if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+      if (selectCanisterID ===  DAO_CANISTER_ID ) {
         setSubCommandList(  ["Transfer Token"])
         setSubCommand("Transfer Token")
       }else {
@@ -72,7 +74,7 @@ export default function SubmitProposals() {
 
   const [selectCanisterID] = useAtom(selectCanisterIDAtom)
   useEffect(()=>{
-    if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+    if (selectCanisterID ===  DAO_CANISTER_ID ) {
       setCommands(  [
         "Admin Command",
         "Token Command",
@@ -84,7 +86,7 @@ export default function SubmitProposals() {
     }
 
     setSelectCommand("Admin Command")
-    if (selectCanisterID ===  "r7inp-6aaaa-aaaaa-aaabq-cai" ) {
+    if (selectCanisterID ===  DAO_CANISTER_ID ) {
       setSubCommandList(  ["Remove Member","Add Member"])
     }else {
       setSubCommandList(  ["Remove Member","Add Member","Install Code"])
@@ -276,9 +278,9 @@ export default function SubmitProposals() {
               console.log(installArg)
               console.log(IDL.encode([BasicDaoStableStorage],[installArg]))
               const installCodeData = await mutationInstallCode.mutateAsync({
-                args:IDL.encode([BasicDaoStableStorage],[installArg]),
+                args:new Uint8Array(IDL.encode([BasicDaoStableStorage],[installArg])),
                 wasm:new Uint8Array(installCode),
-                canisterId:Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"),
+                canisterId:Principal.fromText("zkiie-xyaaa-aaaah-abdra-cai"),
               })
               console.log(installCodeData)
             })()

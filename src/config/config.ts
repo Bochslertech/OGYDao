@@ -10,7 +10,7 @@ export function getConfig(){
   }else {
     return {
       DAO_CANISTER_ID:"zkiie-xyaaa-aaaah-abdra-cai",
-      MANAGE_CANISTER_ID:"2ouh4-ziaaa-aaaam-aahfa-cai",
+      MANAGE_CANISTER_ID:"asjdw-4qaaa-aaaah-abboq-cai",
       IC_HOST:"https://ic0.app",
     }
   }
