@@ -16,6 +16,7 @@ import { IDL} from "@dfinity/candid";
 import { getConfig } from "../config/config";
 import { parseInt } from "lodash";
 import { useTokenTransfer } from "../hooks/useTokenTransfer";
+import { useOGYTransfer } from "../hooks/useOGYTransfer";
 
 export default function SubmitProposals() {
   const {principal} = useWalletConnect()
@@ -66,7 +67,7 @@ export default function SubmitProposals() {
       setSubCommand("Remove Member")
     }else {
       if (selectCanisterID ===  DAO_CANISTER_ID ) {
-        setSubCommandList(  ["Transfer Token"])
+        setSubCommandList(  ["Transfer Token","Transfer OGY"])
         setSubCommand("Transfer Token")
       }else {
         setSubCommandList(  [])
@@ -107,6 +108,7 @@ export default function SubmitProposals() {
   const {mutationRemoveMember} = useRemoveMember()
   const {mutationInstallCode} = useInstallCode()
   const {mutationTransferToken} = useTokenTransfer()
+  const {mutationOGYTransfer} = useOGYTransfer()
   const toast = useToast()
   const submitProposal = () => {
     if (!principal) {
@@ -325,70 +327,140 @@ export default function SubmitProposals() {
         }
         return;
       case "Token Command":
-        if (content === "" || !content) {
-          toast({
-            title: 'Token command',
-            description: "Content cannot be empty",
-            status: 'error',
-            duration: 3000,
-            position: 'top',
-            isClosable: true,
-          })
-          return;
-        }
-        if (proposalPid === "" || !proposalPid) {
-          toast({
-            title: 'Token command',
-            description: "principal cannot be empty",
-            status: 'error',
-            duration: 3000,
-            position: 'top',
-            isClosable: true,
-          })
-          return;
+        console.log(subCommand)
+        switch (subCommand) {
+          case "Transfer Token":
+            if (content === "" || !content) {
+              toast({
+                title: 'Token command',
+                description: "Content cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
+            if (proposalPid === "" || !proposalPid) {
+              toast({
+                title: 'Token command',
+                description: "principal cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
+
+            if (amount === "" || !amount) {
+              toast({
+                title: 'Token command',
+                description: "amount cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
+            let amountIn = parseInt(amount);
+            (async ()=>{
+              setSubmitLoading(true)
+              const data = await mutationTransferToken.mutateAsync({
+                principal:Principal.fromText(proposalPid),
+                amount:BigInt(amountIn*1e8),
+                content:content,
+              })
+              if ("err" in data) {
+                toast({
+                  title: 'Token command',
+                  description: data.err,
+                  status: 'error',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }else {
+                toast({
+                  title: 'Token command',
+                  description: "submit success",
+                  status: 'success',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }
+              setSubmitLoading(false)
+            })()
+            return;
+          case "Transfer OGY":
+            if (content === "" || !content) {
+              toast({
+                title: 'Token command',
+                description: "Content cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
+            if (proposalPid === "" || !proposalPid) {
+              toast({
+                title: 'Token command',
+                description: "principal cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
+
+            if (amount === "" || !amount) {
+              toast({
+                title: 'Token command',
+                description: "amount cannot be empty",
+                status: 'error',
+                duration: 3000,
+                position: 'top',
+                isClosable: true,
+              })
+              return;
+            }
+            let amountIn1 = parseInt(amount);
+            (async ()=>{
+              setSubmitLoading(true)
+              const data = await mutationOGYTransfer.mutateAsync({
+                principal:Principal.fromText(proposalPid),
+                amount:BigInt(amountIn1*1e8),
+                content:content,
+              })
+              if ("err" in data) {
+                toast({
+                  title: 'Token command',
+                  description: data.err,
+                  status: 'error',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }else {
+                toast({
+                  title: 'Token command',
+                  description: "submit success",
+                  status: 'success',
+                  duration: 3000,
+                  position: 'top',
+                  isClosable: true,
+                })
+              }
+              setSubmitLoading(false)
+            })()
+            return;
         }
 
-        if (amount === "" || !amount) {
-          toast({
-            title: 'Token command',
-            description: "amount cannot be empty",
-            status: 'error',
-            duration: 3000,
-            position: 'top',
-            isClosable: true,
-          })
-          return;
-        }
-        let amountIn = parseInt(amount);
-        (async ()=>{
-          setSubmitLoading(true)
-          const data = await mutationTransferToken.mutateAsync({
-            principal:Principal.fromText(proposalPid),
-            amount:BigInt(amountIn*1e8),
-            content:content,
-          })
-          if ("err" in data) {
-            toast({
-              title: 'Token command',
-              description: data.err,
-              status: 'error',
-              duration: 3000,
-              position: 'top',
-              isClosable: true,
-            })
-          }else {
-            toast({
-              title: 'Token command',
-              description: "submit success",
-              status: 'success',
-              duration: 3000,
-              position: 'top',
-              isClosable: true,
-            })
-          }
-          setSubmitLoading(false)
-        })()
-        return;
     }
   }
   return (
@@ -418,7 +490,7 @@ export default function SubmitProposals() {
         <Textarea onChange={(event)=>{changeContent(event)}} id='proposal' placeholder='Proposal content' />
       </FormControl>
 
-      {selectCommand === "Token Command" && subCommand === "Transfer Token"?
+      {selectCommand === "Token Command" ?
       <FormControl isRequired>
         <FormLabel htmlFor='Amount'>Transfer Token Amount</FormLabel>
         <NumberInput onChange={(amount)=> {changeAmount(amount)}} defaultValue={0} min={1} >

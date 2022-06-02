@@ -74,8 +74,9 @@ export interface SystemParams {
   'proposal_submission_deposit' : Tokens,
 }
 export type TokenCommand = {
-  'Transfer' : { 'recipient' : Principal, 'amount' : bigint }
-};
+  'TransferOGY' : { 'recipient' : Principal, 'amount' : bigint }
+} |
+  { 'Transfer' : { 'recipient' : Principal, 'amount' : bigint } };
 export interface Tokens { 'amount_e8s' : bigint }
 export interface TransferArgs { 'to' : Principal, 'amount' : Tokens }
 export interface UpdateSystemParamsPayload {

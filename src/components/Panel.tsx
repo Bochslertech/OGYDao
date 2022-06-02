@@ -9,7 +9,7 @@ import { Principal } from "@dfinity/principal";
 
 export default function Panel() {
   const {data,isLoading} = useSystemConfig()
-
+    console.log("data",data)
   const {data:listAccounts,isLoading:isLoadingAccounts} = useListAccounts()
   console.log("list account",listAccounts)
   return (

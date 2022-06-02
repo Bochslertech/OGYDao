@@ -8,6 +8,7 @@ import { FiRefreshCw } from "react-icons/fi"
 export default function Proposals() {
   const {data,isLoading,isFetching,refetch} = useListProposals()
   const {principal} = useWalletConnect()
+  console.log("list po",data)
   return (
     <>
       <chakra.div display={"flex"} justifyContent={"right"} mr={3} >

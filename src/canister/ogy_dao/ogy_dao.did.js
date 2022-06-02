@@ -47,6 +47,10 @@ export const idlFactory = ({ IDL }) => {
     'AddMembers' : IDL.Vec(Account),
   });
   const TokenCommand = IDL.Variant({
+    'TransferOGY' : IDL.Record({
+      'recipient' : IDL.Principal,
+      'amount' : IDL.Nat,
+    }),
     'Transfer' : IDL.Record({
       'recipient' : IDL.Principal,
       'amount' : IDL.Nat64,
@@ -145,6 +149,10 @@ export const init = ({ IDL }) => {
     'AddMembers' : IDL.Vec(Account),
   });
   const TokenCommand = IDL.Variant({
+    'TransferOGY' : IDL.Record({
+      'recipient' : IDL.Principal,
+      'amount' : IDL.Nat,
+    }),
     'Transfer' : IDL.Record({
       'recipient' : IDL.Principal,
       'amount' : IDL.Nat64,
