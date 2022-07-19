@@ -17,6 +17,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/Header";
 import Index from "./pages/Index";
 import CreateProposal from "./pages/CreateProposal";
+import ModClubVerify from "./pages/ModClubVerify";
 
 const queryClient = new QueryClient();
 export const App = () => (
@@ -31,6 +32,7 @@ export const App = () => (
         {/*</Route>*/}
         <Route exact path="/" component={Index} />
         <Route exact path="/create_proposal" component={CreateProposal} />
+        <Route exact path="/modclub_verify" component={ModClubVerify} />
       </Switch>
     </Router>
   </ChakraProvider>

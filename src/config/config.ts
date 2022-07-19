@@ -4,13 +4,15 @@ export function getConfig(){
     return {
       DAO_CANISTER_ID:"r7inp-6aaaa-aaaaa-aaabq-cai",
       MANAGE_CANISTER_ID:"rrkah-fqaaa-aaaaa-aaaaq-cai",
-      IC_HOST:"http://127.0.0.1:8000/",
+      IC_HOST:"https://ic0.app",
+      MODCLUB_CANISTER_ID:"wg45t-qiaaa-aaaah-abflq-cai",
     }
   }else {
     return {
       DAO_CANISTER_ID:"zkiie-xyaaa-aaaah-abdra-cai",
       MANAGE_CANISTER_ID:"cqhon-aaaaa-aaaah-abg6a-cai",
       IC_HOST:"https://ic0.app",
+      MODCLUB_CANISTER_ID:"wg45t-qiaaa-aaaah-abflq-cai",
     }
   }
 }

@@ -40,7 +40,7 @@ export default function Header() {
   const [connectWT,setConnectWT] = useAtom(connectWalletTypeAtom)
   const [_,setLoginLoading] = useAtom(loginLoadingAtom)
   const {principal,handleIIAuthenticated,handlePLUGAuthenticated} = useWalletConnect()
-  const {DAO_CANISTER_ID,MANAGE_CANISTER_ID,IC_HOST} = getConfig()
+  const {IC_HOST,MODCLUB_CANISTER_ID} = getConfig()
   useEffect(()=> {
     (async ()=> {
       // II 登录
@@ -56,14 +56,14 @@ export default function Header() {
         case "PLUG":
           setLoginLoading(true)
           await handlePLUGAuthenticated([
-            DAO_CANISTER_ID,
-            MANAGE_CANISTER_ID
+            MODCLUB_CANISTER_ID,
           ])
           setLoginLoading(false)
           break
       }
     })();
   },[])
+
   return (
     <React.Fragment>
       <ConnectModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
@@ -101,12 +101,32 @@ export default function Header() {
                   Home
                 </Button>
           </Link>
+
+                <Link  to={{pathname:"modclub_verify"}} as={RouterLink}
+                       _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                       style={{ textDecoration: 'none',outline:'none' }}
+                       _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
+                >
+                  <Button
+                    bg={bg}
+                    color="gray.500"
+                    display="inline-flex"
+                    alignItems="center"
+                    fontSize="md"
+                    _hover={{ color: "purple.600" }}
+                    _focus={{ boxShadow: "none" }}
+                  >
+                    ModClub Verify
+                  </Button>
+                </Link>
+
                 <Link  to={{pathname:"create_proposal"}} as={RouterLink}
                        _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
                        style={{ textDecoration: 'none',outline:'none' }}
                        _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
                        >
                 <Button
+                  disabled={true}
                   bg={bg}
                   color="gray.500"
                   display="inline-flex"
@@ -118,11 +138,16 @@ export default function Header() {
                   Create Proposal
                 </Button>
                 </Link>
+
+
+
+
                 <Link  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
                        style={{ textDecoration: 'none',outline:'none' }}
                        _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
                        href={"https://7tcwa-gqaaa-aaaad-qbs2a-cai.raw.ic0.app/"} isExternal={true}>
                 <Button
+                  disabled={true}
                   bg={bg}
                   color="gray.500"
                   display="inline-flex"

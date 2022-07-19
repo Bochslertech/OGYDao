@@ -45,14 +45,14 @@ const ConnectModal = ({isOpen,onOpen,onClose}:{
                         <DrawerCloseButton />
                         <DrawerBody mt={10}>
                             <Text fontSize={"xl"}>Wallet</Text>
-                            <chakra.div mt={3}>
-                                <Text>Select Canister</Text>
-                                <Select value={selectCanisterID} onChange={(event) => {setSelectCanisterID(event.target.value)}}>
-                                    <option  value={DAO_CANISTER_ID}>Token</option>
-                                    <option  value={MANAGE_CANISTER_ID}>Management</option>
-                                </Select>
-                                <Text color={"purple.700"} fontWeight={"bold"}>Current Canister:{selectCanisterID}</Text>
-                            </chakra.div>
+                            {/*<chakra.div mt={3}>*/}
+                            {/*    <Text>Select Canister</Text>*/}
+                            {/*    <Select value={selectCanisterID} onChange={(event) => {setSelectCanisterID(event.target.value)}}>*/}
+                            {/*        <option  value={DAO_CANISTER_ID}>Token</option>*/}
+                            {/*        <option  value={MANAGE_CANISTER_ID}>Management</option>*/}
+                            {/*    </Select>*/}
+                            {/*    <Text color={"purple.700"} fontWeight={"bold"}>Current Canister:{selectCanisterID}</Text>*/}
+                            {/*</chakra.div>*/}
                             {loginLoading ? <LoadingSpinner/>:""}
 
                             {!loginLoading && !principal?

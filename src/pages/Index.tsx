@@ -17,24 +17,24 @@ function Index(){
 
   return (
     <chakra.div >
-      <Panel/>
-      <chakra.div display={"flex"} justifyContent={"space-between"}>
-      <chakra.div ml={5}>
-        <chakra.div mt={3}>
-          <Text>Select Canister</Text>
-          <Select value={selectCanisterID} width={"200px"} onChange={(event) => {setSelectCanisterID(event.target.value)}}>
-            <option  value={DAO_CANISTER_ID}>Token</option>
-            <option  value={MANAGE_CANISTER_ID}>Management</option>
-          </Select>
-          <Text color={"purple.700"} fontWeight={"bold"}>Current CanisterID:{selectCanisterID}</Text>
-        </chakra.div>
-      </chakra.div>
-        <chakra.div mr={5}>
-          <Text color={"purple.700"} fontWeight={"bold"}>Canister Hold OGY</Text>
-          <Text color={"purple.500"} fontWeight={"500"}>{isLoading?"loading...":toBigNumber(data).div(1e8).toNumber()}</Text>
-        </chakra.div>
-      </chakra.div>
-      <Proposals/>
+      {/*<Panel/>*/}
+      {/*<chakra.div display={"flex"} justifyContent={"space-between"}>*/}
+      {/*<chakra.div ml={5}>*/}
+      {/*  <chakra.div mt={3}>*/}
+      {/*    <Text>Select Canister</Text>*/}
+      {/*    <Select value={selectCanisterID} width={"200px"} onChange={(event) => {setSelectCanisterID(event.target.value)}}>*/}
+      {/*      <option  value={DAO_CANISTER_ID}>Token</option>*/}
+      {/*      <option  value={MANAGE_CANISTER_ID}>Management</option>*/}
+      {/*    </Select>*/}
+      {/*    <Text color={"purple.700"} fontWeight={"bold"}>Current CanisterID:{selectCanisterID}</Text>*/}
+      {/*  </chakra.div>*/}
+      {/*</chakra.div>*/}
+      {/*  <chakra.div mr={5}>*/}
+      {/*    <Text color={"purple.700"} fontWeight={"bold"}>Canister Hold OGY</Text>*/}
+      {/*    <Text color={"purple.500"} fontWeight={"500"}>{isLoading?"loading...":toBigNumber(data).div(1e8).toNumber()}</Text>*/}
+      {/*  </chakra.div>*/}
+      {/*</chakra.div>*/}
+      {/*<Proposals/>*/}
     </chakra.div>
   )
 }
