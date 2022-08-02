@@ -19,6 +19,7 @@ import Index from "./pages/Index";
 import CreateProposal from "./pages/CreateProposal";
 import ModClubVerify from "./pages/ModClubVerify";
 import ClaimCycles from "./pages/ClaimCycles";
+import ClaimCanister from "./pages/ClaimCanister";
 
 const queryClient = new QueryClient();
 export const App = () => (
@@ -35,6 +36,7 @@ export const App = () => (
         <Route exact path="/create_proposal" component={CreateProposal} />
         <Route exact path="/modclub_verify" component={ModClubVerify} />
         <Route exact path="/claim_cycles" component={ClaimCycles} />
+        <Route exact path="/claim_canister" component={ClaimCanister} />
       </Switch>
     </Router>
   </ChakraProvider>

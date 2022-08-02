@@ -8,16 +8,16 @@ import { useState } from "react";
 import { useHoldOGYAmount } from "../hooks/useHoldOGYAmount";
 import { useAvailableCycles } from "../hooks/useAvailableCycles";
 import { toBigNumber } from "../utils/format";
+import { useClaimCanister } from "../hooks/useClaimCanister";
 
-function ClaimCycles(){
+function ClaimCanister(){
   const {principal} = useWalletConnect()
   const toast = useToast()
-  const {mutationClaimCycles} = useClaimCycles()
+  const {mutationClaimCanister} = useClaimCanister()
   const [isLoading,setIsLoading] = useState(false)
-  const [toCanisterId,setToCanisterId] = useState("");
+  const [claimCanisterId,setClaimCanisterId] = useState("")
 
-  const {data,isLoading : isLoading2 } = useAvailableCycles()
-  const claimCycles = async () => {
+  const claimCanister = async () => {
     if (!principal) {
       toast({
         title: 'Pls login',
@@ -30,22 +30,8 @@ function ClaimCycles(){
       return;
     }
 
-    try {
-      Principal.fromText(toCanisterId)
-    }catch (e){
-      console.log(e)
-      toast({
-        title: 'canisterID error',
-        description: "canisterID error",
-        status: 'error',
-        duration: 3000,
-        position: 'top',
-        isClosable: true,
-      })
-      return;
-    }
     setIsLoading(true)
-    const result  = await mutationClaimCycles.mutateAsync(Principal.fromText(toCanisterId))
+    const result  = await mutationClaimCanister.mutateAsync()
     setIsLoading(false)
     console.log(result)
     if ("err" in result) {
@@ -58,6 +44,8 @@ function ClaimCycles(){
         isClosable: true,
       })
       return;
+    }else {
+      setClaimCanisterId(Principal.fromUint8Array(result.ok._arr).toString())
     }
   }
 
@@ -65,16 +53,14 @@ function ClaimCycles(){
     <chakra.div mt={5}>
       <Container maxW={"4xl"}>
         <FormControl>
-          <FormLabel>CanisterID</FormLabel>
-          <Input type='Canisterid' onChange={(event)=>{setToCanisterId(event.target.value)}} />
           <FormHelperText>请合理领取.仅限白名单用户领取,如你不是白名单,请联系管理员添加</FormHelperText>
         </FormControl>
         <FormControl  mt={3}>
-          <Button disabled={isLoading} isLoading={isLoading} onClick={claimCycles} colorScheme={"blue"}>Claim</Button>
+          <Button disabled={isLoading} isLoading={isLoading} onClick={claimCanister} colorScheme={"blue"}>Claim</Button>
         </FormControl>
         <chakra.div mt={3}>
           <Alert status='success' borderRadius={"0.375rem"}>
-            <AlertDescription>当前可用Cycles {data ? toBigNumber(data).div(1e12).minus(2).toString()+"T":"loading"}</AlertDescription>
+            <AlertDescription>您申请的canisterid为,请及时复制保存:{claimCanisterId}</AlertDescription>
           </Alert>
         </chakra.div>
       </Container>
@@ -82,4 +68,4 @@ function ClaimCycles(){
   )
 }
 
-export default ClaimCycles;
+export default ClaimCanister;

@@ -7,7 +7,8 @@ export const idlFactory = ({ IDL }) => {
     'target' : IDL.Vec(IDL.Principal),
     'releaseTime' : Time,
   });
-  const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text });
+  const Result_1 = IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text });
+  const Result = IDL.Variant({ 'ok' : IDL.Principal, 'err' : IDL.Text });
   const Announcement = IDL.Record({
     'id' : IDL.Nat,
     'title' : IDL.Text,
@@ -27,17 +28,19 @@ export const idlFactory = ({ IDL }) => {
   const Proxy = IDL.Service({
     'addAnnouncements' : IDL.Func([AnnouncementInit], [], []),
     'addBucket' : IDL.Func([IDL.Vec(IDL.Principal)], [], []),
+    'addCanister' : IDL.Func([IDL.Principal], [Result_1], []),
     'addCanisterController' : IDL.Func(
-        [IDL.Principal, IDL.Principal],
-        [],
-        ['oneway'],
-      ),
+      [IDL.Principal, IDL.Principal],
+      [],
+      ['oneway'],
+    ),
     'addCreator_whitelist' : IDL.Func([IDL.Vec(IDL.Principal)], [], []),
     'addOperation' : IDL.Func([IDL.Vec(IDL.Principal)], [], []),
     'allApply' : IDL.Func([], [IDL.Vec(IDL.Vec(IDL.Nat8))], ['query']),
     'apply' : IDL.Func([IDL.Vec(IDL.Nat8)], [IDL.Bool], []),
     'availableCycles' : IDL.Func([], [IDL.Nat], ['query']),
-    'claim' : IDL.Func([IDL.Principal], [Result], []),
+    'claim' : IDL.Func([IDL.Principal], [Result_1], []),
+    'claimCanister' : IDL.Func([], [Result], []),
     'clearApply' : IDL.Func([], [IDL.Bool], []),
     'delAnnouncement' : IDL.Func([IDL.Nat], [], []),
     'delApply' : IDL.Func([IDL.Vec(IDL.Nat8)], [IDL.Bool], []),
@@ -48,22 +51,22 @@ export const idlFactory = ({ IDL }) => {
     'getBucketOwner' : IDL.Func([], [IDL.Principal], []),
     'getBuckets' : IDL.Func([], [IDL.Vec(IDL.Principal)], ['query']),
     'getCanisterStatus' : IDL.Func(
-        [IDL.Principal],
-        [
-          IDL.Record({
-            'status' : IDL.Variant({
-              'stopped' : IDL.Null,
-              'stopping' : IDL.Null,
-              'running' : IDL.Null,
-            }),
-            'memory_size' : IDL.Nat,
-            'cycles' : IDL.Nat,
-            'settings' : definite_canister_settings,
-            'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+      [IDL.Principal],
+      [
+        IDL.Record({
+          'status' : IDL.Variant({
+            'stopped' : IDL.Null,
+            'stopping' : IDL.Null,
+            'running' : IDL.Null,
           }),
-        ],
-        [],
-      ),
+          'memory_size' : IDL.Nat,
+          'cycles' : IDL.Nat,
+          'settings' : definite_canister_settings,
+          'module_hash' : IDL.Opt(IDL.Vec(IDL.Nat8)),
+        }),
+      ],
+      [],
+    ),
     'getCreator_whitelist' : IDL.Func([], [IDL.Vec(IDL.Principal)], ['query']),
     'getMemory' : IDL.Func([], [IDL.Nat], ['query']),
     'getOperations' : IDL.Func([], [IDL.Vec(IDL.Principal)], ['query']),
@@ -72,3 +75,4 @@ export const idlFactory = ({ IDL }) => {
   });
   return Proxy;
 };
+export const init = ({ IDL }) => { return [IDL.Principal]; };
