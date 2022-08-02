@@ -10,6 +10,7 @@ import { useGetToken } from "../hooks/useGetToken";
 function ModClubVerify(){
   const {mutationCheckStatus} = useCheckStatus()
   const {mutationGetToken} = useGetToken()
+
   const [isLoading,setIsLoading] = useState(false)
   const toast = useToast();
   const [verifyUrl,setVerifyUrl] = useState("")
@@ -64,7 +65,6 @@ function ModClubVerify(){
       <chakra.div  mb={5}>
         <Button colorScheme={"blue"}>Verify</Button>
       </chakra.div>
-
     </chakra.div>
   )
 }
