@@ -6,14 +6,12 @@ export interface Announcement {
   'endTime' : Time,
   'operator' : Principal,
   'createTime' : Time,
-  'target' : Array<Principal>,
   'releaseTime' : Time,
 }
 export interface AnnouncementInit {
   'title' : string,
   'content' : string,
   'endTime' : Time,
-  'target' : Array<Principal>,
   'releaseTime' : Time,
 }
 export interface Proxy {
@@ -29,13 +27,15 @@ export interface Proxy {
   'apply' : (arg_0: Array<number>) => Promise<boolean>,
   'availableCycles' : () => Promise<bigint>,
   'claim' : (arg_0: Principal) => Promise<Result_1>,
-  'claimCanister' : () => Promise<Result>,
+  'claimCanister' : (arg_0: Principal) => Promise<Result>,
   'clearApply' : () => Promise<boolean>,
   'delAnnouncement' : (arg_0: bigint) => Promise<undefined>,
   'delApply' : (arg_0: Array<number>) => Promise<boolean>,
+  'delCanisters' : (arg_0: Principal) => Promise<Array<Principal>>,
   'delCreator_whitelist' : (arg_0: Array<Principal>) => Promise<undefined>,
   'delOperation' : (arg_0: Array<Principal>) => Promise<undefined>,
   'getAnnouncements' : () => Promise<Array<Announcement>>,
+  'getAnnouncementsAll' : () => Promise<Array<Announcement>>,
   'getBucket' : () => Promise<Principal>,
   'getBucketOwner' : () => Promise<Principal>,
   'getBuckets' : () => Promise<Array<Principal>>,
@@ -50,11 +50,14 @@ export interface Proxy {
       'module_hash' : [] | [Array<number>],
     }
     >,
+  'getCanisters' : () => Promise<Array<Principal>>,
+  'getClaimedCanisters' : () => Promise<Array<[Principal, Principal]>>,
   'getCreator_whitelist' : () => Promise<Array<Principal>>,
   'getMemory' : () => Promise<bigint>,
   'getOperations' : () => Promise<Array<Principal>>,
   'setBucket' : (arg_0: Principal) => Promise<undefined>,
   'setBucketOwner' : (arg_0: Principal) => Promise<undefined>,
+  'updateAnnouncement' : (arg_0: Announcement) => Promise<undefined>,
 }
 export type Result = { 'ok' : Principal } |
   { 'err' : string };

@@ -16,6 +16,7 @@ function ClaimCanister(){
   const {mutationClaimCanister} = useClaimCanister()
   const [isLoading,setIsLoading] = useState(false)
   const [claimCanisterId,setClaimCanisterId] = useState("")
+  const [controllerId,setControllerId] = useState("");
 
   const claimCanister = async () => {
     if (!principal) {
@@ -30,8 +31,23 @@ function ClaimCanister(){
       return;
     }
 
+    try {
+      Principal.fromText(controllerId)
+    }catch (e){
+      console.log(e)
+      toast({
+        title: 'controller id error',
+        description: "controller id error",
+        status: 'error',
+        duration: 3000,
+        position: 'top',
+        isClosable: true,
+      })
+      return;
+    }
+
     setIsLoading(true)
-    const result  = await mutationClaimCanister.mutateAsync()
+    const result  = await mutationClaimCanister.mutateAsync(Principal.fromText(controllerId))
     setIsLoading(false)
     console.log(result)
     if ("err" in result) {
@@ -54,6 +70,11 @@ function ClaimCanister(){
       <Container maxW={"4xl"}>
         <FormControl>
           <FormHelperText>请合理领取.仅限白名单用户领取,如你不是白名单,请联系管理员添加</FormHelperText>
+        </FormControl>
+        <FormControl>
+          <FormLabel>ControllerID</FormLabel>
+          <Input type='controllerid' onChange={(event)=>{setControllerId(event.target.value)}} />
+          <FormHelperText>请输入ControllerId</FormHelperText>
         </FormControl>
         <FormControl  mt={3}>
           <Button disabled={isLoading} isLoading={isLoading} onClick={claimCanister} colorScheme={"blue"}>Claim</Button>
