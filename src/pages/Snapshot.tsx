@@ -57,8 +57,8 @@ function Snapshot(){
           <Button disabled={isLoading} isLoading={isLoading} onClick={getRegistry} colorScheme={"blue"}>Get</Button>
         </FormControl>
         <chakra.div mt={2} p={3} bg={"purple.100"}>
-          {nftRegistry?nftRegistry.map((k:any,v:any)=>{
-              return  <chakra.p>TokenIndex:{v},Account ID:{k}</chakra.p>
+          {nftRegistry?nftRegistry.map((v:any,k:any)=>{
+              return  <chakra.p>{v[0]},{v[1]}</chakra.p>
           }):""}
           {/*<chakra.p>saddasdas</chakra.p>*/}
           {/*<chakra.p>saddasdas</chakra.p>*/}
