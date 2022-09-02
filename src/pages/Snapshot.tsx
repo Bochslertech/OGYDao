@@ -10,7 +10,7 @@ import {
   Input,
   FormHelperText,
   Alert,
-  AlertDescription
+  AlertDescription, useClipboard
 } from "@chakra-ui/react";
 import { useCheckStatus } from "../hooks/useCheckStatus";
 import { IDL } from "@dfinity/candid";
@@ -45,6 +45,9 @@ function Snapshot(){
     setNFTRegistry(getTokenData)
     console.log(getTokenData)
   }
+  const [copyValue,setCopyValue] = useState("")
+  const { hasCopied, onCopy } =  useClipboard(copyValue)
+
   return (
     <chakra.div mt={5}>
       <Container maxW={"4xl"}>
@@ -56,6 +59,19 @@ function Snapshot(){
         <FormControl  mt={3}>
           <Button disabled={isLoading} isLoading={isLoading} onClick={getRegistry} colorScheme={"blue"}>Get</Button>
         </FormControl>
+        <Button mt={3} onClick={()=>{
+          if (nftRegistry) {
+            var str = "";
+            for(let i = 0;i<nftRegistry.length;i++){
+              str = str+nftRegistry[i][0]+","+nftRegistry[i][1] +"\r\n"
+            }
+            setCopyValue(str)
+            onCopy()
+          }
+        }} ml={2}>
+          {hasCopied ? 'Copied' : 'Copy'}
+        </Button>
+
         <chakra.div mt={2} p={3} bg={"purple.100"}>
           {nftRegistry?nftRegistry.map((v:any,k:any)=>{
               return  <chakra.p>{v[0]},{v[1]}</chakra.p>
