@@ -20,6 +20,7 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^0.27.2",
     "bignumber.js": "^9.0.2",
     "buffer": "^6.0.3",
     "dotenv-cli": "^5.1.0",

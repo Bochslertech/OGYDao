@@ -22,6 +22,7 @@ import ClaimCycles from "./pages/ClaimCycles";
 import ClaimCanister from "./pages/ClaimCanister";
 import Snapshot from "./pages/Snapshot";
 import Allowance from "./pages/Allowance";
+import CheckAsset from "./pages/CheckAsset";
 
 const queryClient = new QueryClient();
 export const App = () => (
@@ -41,6 +42,7 @@ export const App = () => (
         <Route exact path="/claim_canister" component={ClaimCanister} />
         <Route exact path="/snapshot" component={Snapshot} />
         <Route exact path="/allowance" component={Allowance} />
+        <Route exact path="/check_asset" component={CheckAsset} />
       </Switch>
     </Router>
   </ChakraProvider>
