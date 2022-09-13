@@ -107,9 +107,42 @@ function CheckAsset(){
         }
 
         if (tokenIndexs.length > 0) {
-          mutationGetTokenIds.mutateAsync({canisterId:toCanisterId,tokenIndexs:tokenIndexs}).then((data)=>{
-            console.log(data)
-          })
+          console.log("lll",tokenIndexs)
+          const data = await mutationGetTokenIds.mutateAsync({canisterId:toCanisterId,tokenIndexs:tokenIndexs})
+          console.log(data)
+          for (let d =0;d<data.length;d++) {
+            const metadata = ab2str(data[d][1]["nonfungible"]["metadata"][0]) as string
+            const metadataObj = JSON.parse(metadata)
+            if ("url" in metadataObj) {
+              console.log(metadataObj["url"])
+              axios.get(metadataObj['url'])
+                .then(function (response) {
+                  if (response.status !== 200){
+                    logs.push("404:",metadata)
+                    setLogs(logs)
+                  }
+                })
+                .catch(function (error) {
+                  logs.push("error:",metadata)
+                  setLogs(logs)
+                });
+            }
+
+            if ("thumb" in metadataObj) {
+              axios.get(metadataObj['thumb'])
+                .then(function (response) {
+                  if (response.status !== 200){
+                    logs.push("404:",metadata)
+                    setLogs(logs)
+                  }
+                })
+                .catch(function (error) {
+                  logs.push("error:",metadata)
+                  setLogs(logs)
+                });
+            }
+          }
+
           tokenIndexs = []
         }
         //mutationGetTokenIds.mutateAsync({canisterId:toCanisterId,tokenIndexs:})
