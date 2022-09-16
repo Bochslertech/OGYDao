@@ -157,6 +157,23 @@ export default function Header() {
                 <Link  as={RouterLink}  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
                        style={{ textDecoration: 'none',outline:'none' }}
                        _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
+                       to={{pathname:"convert_json"}}>
+                  <Button
+                    bg={bg}
+                    color="gray.500"
+                    display="inline-flex"
+                    alignItems="center"
+                    fontSize="md"
+                    _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                    _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
+                  >
+                    Convert JSON
+                  </Button>
+                </Link>
+
+                <Link  as={RouterLink}  _focus={{ boxShadow: "none",textDecoration:"none",border:'none' }}
+                       style={{ textDecoration: 'none',outline:'none' }}
+                       _hover={{  boxShadow: "none",textDecoration:"none",border:'none',color: "purple.600" }}
                        to={{pathname:"claim_cycles"}}>
                   <Button
                     bg={bg}

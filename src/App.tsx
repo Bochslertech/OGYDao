@@ -23,6 +23,7 @@ import ClaimCanister from "./pages/ClaimCanister";
 import Snapshot from "./pages/Snapshot";
 import Allowance from "./pages/Allowance";
 import CheckAsset from "./pages/CheckAsset";
+import ConvertJson from "./pages/ConvertJson";
 
 const queryClient = new QueryClient();
 export const App = () => (
@@ -43,6 +44,7 @@ export const App = () => (
         <Route exact path="/snapshot" component={Snapshot} />
         <Route exact path="/allowance" component={Allowance} />
         <Route exact path="/check_asset" component={CheckAsset} />
+        <Route exact path="/convert_json" component={ConvertJson} />
       </Switch>
     </Router>
   </ChakraProvider>
