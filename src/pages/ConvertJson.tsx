@@ -51,7 +51,7 @@ function ConvertJson(){
             if (data[i]["traittype"] == "" || data[i]["value"] == ""){
               continue
             }
-            json["attributes"].push({value:data[i]["value"],trait_type:data[i]["traittype"]})
+            json["attributes"].push({value:String(data[i]["value"]),trait_type:String(data[i]["traittype"])})
           }
 
           for (let j = 1;j<30;j++) {
@@ -59,7 +59,7 @@ function ConvertJson(){
               if (data[i]["traittype"+"_"+j] == "" || data[i]["value"+"_"+j] == ""){
                 continue
               }
-              json["attributes"].push({value:data[i]["value"+"_"+j],trait_type:data[i]["traittype"+"_"+j]})
+              json["attributes"].push({value:String(data[i]["value"+"_"+j]),trait_type:String(data[i]["traittype"+"_"+j])})
             }
           }
           zip.file(i+".json", JSON.stringify(json));
