@@ -88,7 +88,7 @@ function ConvertJson(){
           <Input type={"file"} accept=".xlsx,.xls" onChange={onImportExcel}  placeholder='Basic usage' />
 
           <chakra.div>
-            <Link href='https://chakra-ui.com' isExternal>
+            <Link href='https://docs.google.com/spreadsheets/d/13BtIURpWeCGtPte9vIJw4fYAErvELucU/edit?usp=sharing&ouid=111464714673902250147&rtpof=true&sd=true' isExternal>
               点击下载模板
             </Link>
           </chakra.div>
