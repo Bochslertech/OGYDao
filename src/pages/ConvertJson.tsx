@@ -2,7 +2,7 @@ import {
   chakra, FormControl, FormLabel,Input, Link, Container, useToast
 } from "@chakra-ui/react";
 import { useWalletConnect } from "../hooks/useWalletConnect";
-import { useState,useRef,ReactNode } from "react";
+import { useState, useRef, ReactNode, useEffect } from "react";
 import * as XLSX from 'xlsx';
 import JSZip from "jszip";
 // @ts-ignore
@@ -48,18 +48,18 @@ function ConvertJson(){
           }
 
           if ("traittype" in data[i] && "value" in data[i]) {
-            if (data[i]["traittype"] == "" || data[i]["value"] == ""){
-              continue
+            if (data[i]["traittype"] != "" && data[i]["value"] != ""){
+              json["attributes"].push({value:String(data[i]["value"]),trait_type:String(data[i]["traittype"])})
             }
-            json["attributes"].push({value:String(data[i]["value"]),trait_type:String(data[i]["traittype"])})
+
           }
 
           for (let j = 1;j<30;j++) {
             if ("traittype"+"_"+j in data[i] && "value"+"_"+j in data[i]) {
-              if (data[i]["traittype"+"_"+j] == "" || data[i]["value"+"_"+j] == ""){
-                continue
+              if (data[i]["traittype"+"_"+j] != "" && data[i]["value"+"_"+j] != ""){
+                json["attributes"].push({value:String(data[i]["value"+"_"+j]),trait_type:String(data[i]["traittype"+"_"+j])})
               }
-              json["attributes"].push({value:String(data[i]["value"+"_"+j]),trait_type:String(data[i]["traittype"+"_"+j])})
+
             }
           }
           zip.file(i+".json", JSON.stringify(json));
